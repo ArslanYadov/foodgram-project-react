@@ -22,8 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
-    'recipes',
-    'users'
+    'recipes'
 ]
 
 MIDDLEWARE = [
@@ -62,6 +61,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+AUTH_USER_MODEL = 'recipes.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
