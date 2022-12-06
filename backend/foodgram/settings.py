@@ -12,7 +12,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'your-secret-key')
 
 DEBUG = strtobool(os.getenv('DEBUG', 'False'))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
