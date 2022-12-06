@@ -28,6 +28,8 @@ class User(AbstractUser):
                 name='unique_user'
             )
         ]
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
     
     def __str__(self) -> str:
         return self.username
@@ -50,6 +52,9 @@ class Tag(models.Model):
         unique=True,
         verbose_name='Уникальный слаг'
     )
+    
+    def __str__(self) -> str:
+        return self.name
 
 
 class Recipe(models.Model):
@@ -73,4 +78,6 @@ class Recipe(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name='Список id тегов')
     coocking_time = models.PositiveIntegerField(verbose_name='Время приготовления')
 
-
+    class Meta:
+        verbose_name = 'Рецепт'
+        verbose_name_plural = 'Рецепты'
