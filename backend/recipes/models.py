@@ -30,7 +30,7 @@ class User(AbstractUser):
         ]
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
-    
+
     def __str__(self) -> str:
         return self.username
 
@@ -73,7 +73,7 @@ class Tag(models.Model):
     class Meta:
         verbose_name = 'Тэг'
         verbose_name_plural = 'Тэги'
-    
+
     def __str__(self) -> str:
         return self.name
 
@@ -103,7 +103,9 @@ class Recipe(models.Model):
         Tag,
         verbose_name='Список тегов'
     )
-    coocking_time = models.PositiveIntegerField(verbose_name='Время приготовления')
+    coocking_time = models.PositiveIntegerField(
+        verbose_name='Время приготовления'
+    )
 
     class Meta:
         verbose_name = 'Рецепт'
