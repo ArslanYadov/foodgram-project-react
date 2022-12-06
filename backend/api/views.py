@@ -1,10 +1,10 @@
-from api.v1.serializers import (UserGetTokenSerializer,
+from api.serializers import (UserGetTokenSerializer,
                                 UserRegistrationSerializer, UserSerializer)
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from foodgram.settings import EMAIL_ROBOT
-from recipes.models import User
+from users.models import User
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response

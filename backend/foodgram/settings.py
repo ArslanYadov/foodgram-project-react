@@ -24,7 +24,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'api',
-    'recipes'
+    'recipes',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -64,7 +65,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'recipes.User'
+AUTH_USER_MODEL = 'users.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
