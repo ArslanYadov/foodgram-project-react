@@ -2,8 +2,9 @@ from foodgram.settings import RESERVED_USERNAME_LIST
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from users.models import User
+from djoser.serializers import UserCreateSerializer
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
+class UserRegistrationSerializer(UserCreateSerializer):
     
     class Meta:
         model = User

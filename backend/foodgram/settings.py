@@ -114,7 +114,9 @@ REST_FRAMEWORK = {
 }
 
 DJOSER = {
-    'ACTIVATION_URL': '#/activate/{uid}/{token}'
+    'SERIALIZERS': {
+        'user_create': 'api.serializers.UserRegistrationSerializer'
+    }
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
