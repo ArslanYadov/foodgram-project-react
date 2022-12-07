@@ -6,13 +6,10 @@ from django.db import models
 
 class UserManager(BaseUserManager):
     """Класс менджера пользователя."""
-    def create_user(
+    def _create_user(
         self,
-        first_name,
-        last_name,
-        username,
-        email,
-        password
+        first_name, last_name, username, email, password,
+        **extra_fields
     ):
         user = self.model(
             first_name=first_name,
@@ -24,21 +21,30 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(
+    def create_user(
         self,
+        first_name,
+        last_name,
         username,
         email,
         password
     ):
-        user = self.model(
-            username=username,
-            email=self.normalize_email(email),
+        return self._create_user(
+            first_name, last_name, username, email, password
         )
-        user.set_password(password)
-        user.is_staff = True
-        user.is_superuser = True
-        user.save(using=self._db)
-        return user
+
+    def create_superuser(
+        self,
+        first_name,
+        last_name,
+        username,
+        email,
+        password
+    ):
+        return self._create_user(
+            first_name, last_name, username, email, password,
+            is_stuff=True, is_superuser=True
+        )
 
 
 class User(AbstractUser):
