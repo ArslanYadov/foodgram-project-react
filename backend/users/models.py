@@ -45,7 +45,8 @@ class User(AbstractUser):
     """Модель пользователя."""
     username = models.CharField(
         max_length=150,
-        unique=True
+        unique=True,
+        verbose_name='Имя пользователя'
     )
     first_name = models.CharField(
         max_length=150,
@@ -57,7 +58,8 @@ class User(AbstractUser):
     )
     email = models.EmailField(
         max_length=254,
-        unique=True
+        unique=True,
+        verbose_name='Адрес электронной почты'
     )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
