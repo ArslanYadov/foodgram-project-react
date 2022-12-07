@@ -6,7 +6,7 @@ coreapi==2.3.3
 coreschema==0.0.4
 cryptography==38.0.4
 defusedxml==0.7.1
-Django==2.2.19
+Django==2.2.16
 django-templated-mail==1.1.1
 djangorestframework==3.12.4
 djangorestframework-simplejwt==4.8.0
@@ -18,7 +18,7 @@ MarkupSafe==2.1.1
 oauthlib==3.2.2
 Pillow==9.3.0
 pycparser==2.21
-PyJWT==2.1.0
+PyJWT==2.6.0
 python-dotenv==0.21.0
 python3-openid==3.2.0
 pytz==2022.6
@@ -30,4 +30,3 @@ social-auth-core==4.3.0
 sqlparse==0.4.3
 uritemplate==4.1.1
 urllib3==1.26.13
-webcolors==1.12
