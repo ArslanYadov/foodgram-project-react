@@ -63,9 +63,10 @@ class User(AbstractUser):
     )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_subscribed = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ['fisrt_name', 'last_name', 'is_subscribed']
 
     objects = UserManager()
 
