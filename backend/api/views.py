@@ -1,10 +1,11 @@
 from api.serializers import CustomUserCreateSerializer
-from rest_framework import status, viewsets
+from rest_framework import status
+from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from users.models import User
 
-class UserRegistrationView(viewsets.ModelViewSet):
+class UserRegistrationView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = CustomUserCreateSerializer
     permission_classes = [AllowAny]
