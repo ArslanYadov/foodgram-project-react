@@ -6,8 +6,14 @@ from django.db import models
 
 class UserManager(BaseUserManager):
     """Класс менджера пользователя."""
-    def _create_user(self, username, email, password, **extra_fields):
+    def _create_user(
+        self,
+        first_name, last_name,
+        username, email, password, **extra_fields
+    ):
         user = self.model(
+            first_name=first_name,
+            last_name=last_name,
             username=username,
             email=self.normalize_email(email),
             **extra_fields
@@ -16,11 +22,20 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, username, email, password):
-        return self._create_user(username, email, password)
+    def create_user(
+        self,
+        first_name, last_name,
+        username, email, password
+    ):
+        return self._create_user(first_name, last_name, username, email, password)
 
-    def create_superuser(self, username, email, password):
+    def create_superuser(
+        self,
+        first_name, last_name,
+        username, email, password
+    ):
         return self._create_user(
+            first_name, last_name,
             username, email, password,
             is_staff=True, is_superuser=True
         )
@@ -51,9 +66,15 @@ class User(AbstractUser):
     is_subscribed = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
 
     objects = UserManager()
+
+    def __str__(self) -> str:
+        return self.email
+
+    def get_username(self) -> str:
+        return self.username
 
     class Meta:
         constraints = [
@@ -64,6 +85,3 @@ class User(AbstractUser):
         ]
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
-
-    def __str__(self) -> str:
-        return self.username

@@ -1,17 +1,16 @@
-from api.serializers import UserRegistrationSerializer
-from rest_framework import status
-from rest_framework.generics import CreateAPIView
+from api.serializers import CustomUserCreateSerializer
+from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from users.models import User
 
-class UserRegistrationView(CreateAPIView):
+class UserRegistrationView(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserRegistrationSerializer
+    serializer_class = CustomUserCreateSerializer
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        serializer = UserRegistrationSerializer(data=request.data)
+        serializer = CustomUserCreateSerializer(data=request.data)
         data = {}
         if serializer.is_valid():
             serializer.save()
