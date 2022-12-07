@@ -31,17 +31,13 @@ class CustomUserCreateSerializer(UserCreateSerializer):
             username=self.validated_data.get('username'),
             email=self.validated_data.get('email')
         )
-        password = self.validated_data.get('password')
-        user.set_password(password)
-        user.save()
-        return user
-
-"""
-    def validate_username(self, value):
-        if value.lower() in RESERVED_USERNAME_LIST:
+        if user.username.lower() in RESERVED_USERNAME_LIST:
             raise serializers.ValidationError(
                 {
                     'username': ('Данное имя зарезервированно!')
                 }
             )
-"""
+        password = self.validated_data.get('password')
+        user.set_password(password)
+        user.save()
+        return user
