@@ -4,7 +4,7 @@ from rest_framework.validators import UniqueTogetherValidator
 from users.models import User
 from djoser.serializers import UserCreateSerializer, UserSerializer
 
-class UserCustomSerializer(UserSerializer):
+class UserDetailSerializer(UserSerializer):
 
     class Meta:
         model = User
