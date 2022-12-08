@@ -1,6 +1,6 @@
 from django.db import models
+from recipes.validators import validate_color
 from users.models import User
-
 
 class Ingredient(models.Model):
     """Модель ингридиентов."""
@@ -31,6 +31,7 @@ class Tag(models.Model):
     color = models.CharField(
         max_length=7,
         unique=True,
+        validators=[validate_color],
         verbose_name='Цвет в HEX'
     )
     slug = models.SlugField(
