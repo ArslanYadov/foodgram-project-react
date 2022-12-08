@@ -1,20 +1,6 @@
 import base64
-import webcolors
 from django.core.files.base import ContentFile
-from rest_framework.serializers import Field, ImageField, ValidationError
-
-class Hex2NameColor(Field):
-    """Преобразуем цвет из hex формата в название цвета."""
-    def to_representation(self, value):
-        return value
-    
-    def to_internal_value(self, data):
-        try:
-            data = webcolors.hex_to_name(data)
-        except ValueError:
-            raise ValidationError('Для этого цвета нет имени')
-        return data
-
+from rest_framework.serializers import ImageField
 
 class Base64ImageField(ImageField):
     """Декодируем бинарник base64 для передачи в JSON."""
