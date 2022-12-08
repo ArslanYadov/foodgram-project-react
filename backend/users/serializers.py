@@ -5,6 +5,10 @@ from rest_framework.validators import UniqueTogetherValidator
 from users.models import Follow, User
 
 class UserDetailSerializer(UserSerializer):
+    """
+    Переопределяем сериализатор для пользователя.
+    Добавлено поле подписки, если имеется подписчики.
+    """
     is_subscribed = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -26,6 +30,12 @@ class UserDetailSerializer(UserSerializer):
 
 
 class UserRegistrationSerializer(UserCreateSerializer):
+    """
+    Переопределяем регистрацию пользователя.
+    Валидация по уникальности username и email.
+    Валидация создания пользователя с username,
+    который находится в зарезервированном списке.
+    """
     
     class Meta:
         model = User
@@ -53,6 +63,11 @@ class UserRegistrationSerializer(UserCreateSerializer):
 
 
 class FollowSerializer(UserDetailSerializer):
+    """
+    Сериализатор для подписок.
+    Валидация по подписке на самого себя.
+    Валидация по повторной подписке на автора.
+    """
     user = serializers.SlugRelatedField(
         queryset=User.objects.all(),
         slug_field='username',
