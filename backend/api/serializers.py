@@ -1,91 +1,26 @@
-from djoser.serializers import UserCreateSerializer, UserSerializer
-from foodgram.settings import RESERVED_USERNAME_LIST
-from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
-from users.models import Follow, User
+import base64
+import webcolors
+from django.core.files.base import ContentFile
+from rest_framework.serializers import Field, ImageField, ValidationError
 
-class UserDetailSerializer(UserSerializer):
-    is_subscribed = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = User
-        fields = (
-            'email',
-            'id',
-            'username',
-            'first_name',
-            'last_name',
-            'is_subscribed'
-        )
-    
-    def get_is_subscribed(self, obj):
-        user = self.context.get('request').user
-        if not user.is_authenticated:
-            return False
-        return Follow.objects.filter(user=user, following=obj.id).exists()
-
-
-class UserRegistrationSerializer(UserCreateSerializer):
-    
-    class Meta:
-        model = User
-        fields = (
-            'email',
-            'username',
-            'first_name',
-            'last_name',
-            'password'
-        )
-
-        validators = [
-            UniqueTogetherValidator(
-                queryset=User.objects.all(),
-                fields=['username', 'email'],
-            )
-        ]
-    
-    def validate_username(self, value):
-        if value.lower() in RESERVED_USERNAME_LIST:
-            raise serializers.ValidationError(
-                'Данное имя зарезервированно!'
-            )
+class Hex2NameColor(Field):
+    """Преобразуем цвет из hex формата в название цвета."""
+    def to_representation(self, value):
         return value
-
-
-class FollowSerializer(UserDetailSerializer):
-    user = serializers.SlugRelatedField(
-        queryset=User.objects.all(),
-        slug_field='username',
-        default=serializers.CurrentUserDefault()
-    )
-    following = serializers.SlugRelatedField(
-        queryset=User.objects.all(),
-        slug_field='username'
-    )
-
-    def validate_following(self, following):
-        if self.context['request'].user == following:
-            raise serializers.ValidationError(
-                {
-                    'follower': ('Нельзя подписаться на себя самого.')
-                }
-            )
-        return following
     
-    class Meta:
-        model = User
-        fields = (
-            'email',
-            'id',
-            'username',
-            'first_name',
-            'last_name',
-            'is_subscribed'
-        )
-    
-        validators = [
-            serializers.UniqueTogetherValidator(
-                queryset=Follow.objects.all(),
-                fields=('user', 'following',)
-            )
-        ]
+    def to_internal_value(self, data):
+        try:
+            data = webcolors.hex_to_name(data)
+        except ValueError:
+            raise ValidationError('Для этого цвета нет имени')
+        return data
+
+
+class Base64ImageField(ImageField):
+    """Декодируем бинарник base64 для передачи в JSON."""
+    def to_internal_value(self, data):
+        if isinstance(data, str) and data.startswith('data:image'):
+            format, imgstr = data.split(';base64,')
+            ext = format.split('/')[-1]
+            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+        return super().to_internal_value(data)
