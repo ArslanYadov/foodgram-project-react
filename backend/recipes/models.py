@@ -25,21 +25,17 @@ class Tag(models.Model):
     """Модель тэга."""
     name = models.CharField(
         max_length=200,
-        blank=True,
-        null=True,
+        unique=True,
         verbose_name='Название'
     )
     color = models.CharField(
         max_length=7,
-        blank=True,
-        null=True,
+        unique=True,
         verbose_name='Цвет в HEX'
     )
     slug = models.SlugField(
         max_length=200,
         unique=True,
-        blank=True,
-        null=True,
         verbose_name='Уникальный слаг'
     )
 

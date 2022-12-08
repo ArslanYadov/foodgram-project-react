@@ -1,26 +1,10 @@
-import base64
-import webcolors
-from django.core.files.base import ContentFile
-from rest_framework.serializers import Field, ImageField, ValidationError
+from recipes.models import Tag
+from rest_framework.serializers import ModelSerializer
+from api.utils import Hex2NameColor
 
-class Hex2NameColor(Field):
-    """Преобразуем цвет из hex формата в название цвета."""
-    def to_representation(self, value):
-        return value
-    
-    def to_internal_value(self, data):
-        try:
-            data = webcolors.hex_to_name(data)
-        except ValueError:
-            raise ValidationError('Для этого цвета нет имени')
-        return data
+class TagSerializer(ModelSerializer):
+    color = Hex2NameColor()
 
-
-class Base64ImageField(ImageField):
-    """Декодируем бинарник base64 для передачи в JSON."""
-    def to_internal_value(self, data):
-        if isinstance(data, str) and data.startswith('data:image'):
-            format, imgstr = data.split(';base64,')
-            ext = format.split('/')[-1]
-            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
-        return super().to_internal_value(data)
+    class Meta:
+        model = Tag
+        fields = ('id', 'name', 'color', 'slug')
