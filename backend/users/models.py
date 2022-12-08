@@ -85,3 +85,27 @@ class User(AbstractUser):
         ]
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+
+class Follow(models.Model):
+    """Модель подписки."""
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='follower'
+    )
+    following = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='following'
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=('user', 'following'),
+                name='unique_follower'
+            )
+        ]
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
