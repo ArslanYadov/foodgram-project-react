@@ -20,6 +20,7 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
             'email': 'fake@mail.com',
             'password': 'Best_Password_12345'
         }
+        self.set_password_url = 'http://testserver/api/users/set_password/'
 
     def _registrate_user(self):
         """Регистрация пользователя."""
@@ -88,15 +89,13 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
 
     def test_non_authenticated_user_change_password(self):
         """Тест смены пароля не авторизованным пользователем."""
-        url = 'http://testserver/api/users/set_password/'
         respone = self.client.post(
-            path=url, data=self.user_info, format='json'
+            path=self.set_password_url, data=self.user_info, format='json'
         )
         self.assertEqual(respone.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_is_authenticated_user_change_password(self):
         """Тест смены пароля авторизованным пользователем."""
-        url = 'http://testserver/api/users/set_password/'
         self._login_user()
         old_password = User.objects.first().password
         token = Token.objects.first()
@@ -105,13 +104,15 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
             'new_password': 'b3$t_P4ssw0RD',
             'current_password': self.user_info.get('password')
         }
-        response = self.client.post(path=url, data=data, format='json')
+        response = self.client.post(
+            path=self.set_password_url, data=data, format='json'
+        )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
         new_password = User.objects.first().password
         self.assertNotEqual(old_password, new_password)
 
-    def test_endpoint_me(self):
+    def test_endpoint_me_data(self):
         """
         Тестим, что эндпоинт users/me/
         отдает информация о текущем пользователе.
@@ -135,7 +136,7 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
             with self.subTest(value=value):
                 self.assertEqual(value, expected)
 
-    def test_current_user(self):
+    def test_current_user_data(self):
         """
         Проверка того, что эндпоинт /users/{id}/
         отдает информацию о конкретном пользователе.
@@ -146,3 +147,16 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
             path='http://testserver/api/users/{}/'.format(user.id)
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        data = response.json()
+        current_user = (
+            (user.email, data.get('email')),
+            (user.id, data.get('id')),
+            (user.username, data.get('username')),
+            (user.first_name, data.get('first_name')),
+            (user.last_name, data.get('last_name')),
+            (False, data.get('is_subscribed')),
+        )
+        for value, expected in current_user:
+            with self.subTest(value=value):
+                self.assertEqual(value, expected)
