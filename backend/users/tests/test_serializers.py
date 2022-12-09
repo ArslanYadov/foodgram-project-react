@@ -34,3 +34,13 @@ class UserRegistrationTests(APITestCase, URLPatternsTestCase):
         for value, expected in user_fields:
             with self.subTest(value=value):
                 self.assertEqual(value, expected)
+    
+    def test_validate_username(self):
+        """Проверка регистрации пользователя по зарезервированному имени."""
+        url = reverse('user-list')
+        self.user_info['username'] = 'me'
+        response = self.client.post(url, data=self.user_info, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        data = response.json()
+        self.assertEqual('Данное имя зарезервированно!', *data.get('username'))
+        self.assertEqual(User.objects.count(), 0)
