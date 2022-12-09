@@ -4,7 +4,7 @@ from users.models import User
 
 
 class Ingredient(models.Model):
-    """Модель ингридиентов."""
+    """Модель ингредиентов."""
     name = models.CharField(
         max_length=200,
         verbose_name='Название'
@@ -15,8 +15,8 @@ class Ingredient(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Ингридиент'
-        verbose_name_plural = 'Ингридиенты'
+        verbose_name = 'Ингредиент'
+        verbose_name_plural = 'Ингредиенты'
 
     def __str__(self) -> str:
         return self.name
