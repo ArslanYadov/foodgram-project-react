@@ -116,7 +116,8 @@ DJOSER = {
     'PERMISSIONS': {
         'user': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
         'user_list': ['rest_framework.permissions.AllowAny'],
-    }
+    },
+    'HIDE_USERS': False,
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
