@@ -132,4 +132,4 @@ dmypy.json
 .idea
 
 # migrations
-*/migrations/*_initial.py
+backend/*/migrations/*_initial.py
