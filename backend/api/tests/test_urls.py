@@ -3,8 +3,8 @@ from rest_framework.test import APITestCase
 from recipes.models import Tag
 
 
-class UserUrlTests(APITestCase):
-    """Класс тестов доступности URL адресов."""
+class TagUrlTests(APITestCase):
+    """Класс тестов доступности URL адресов для тэга."""
     def setUp(self):
         self.tag_url = 'http://testserver/api/tags/'
 
