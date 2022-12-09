@@ -12,7 +12,7 @@ class TagSerializerTests(APITestCase):
         }
         self.tag = Tag.objects.create(**self.tag_data)
         self.tag_url = 'http://testserver/api/tags/'
-    
+
     def test_tag_list_data(self):
         """
         Тестируем данные,
@@ -20,21 +20,16 @@ class TagSerializerTests(APITestCase):
         Доступно не авторизированному пользователю.
         """
         response = self.client.get(path=self.tag_url)
-        data = {
-            'count': Tag.objects.count(),
-            'next': None,
-            'previous': None,
-            'results': [
-                {
-                    'id': self.tag.id,
-                    'name': self.tag.name,
-                    'color': self.tag.color,
-                    'slug': self.tag.slug
-                }
-            ]
-        }
-        self.assertEqual(data, response.json())
-    
+        tag_field_list = [
+            {
+                'id': self.tag.id,
+                'name': self.tag.name,
+                'color': self.tag.color,
+                'slug': self.tag.slug
+            }
+        ]
+        self.assertEqual(tag_field_list, response.json())
+
     def test_tag_by_id(self):
         """
         Тестируем данные,

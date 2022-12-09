@@ -147,7 +147,7 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
             path='http://testserver/api/users/{}/'.format(user.id)
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        
+
         data = response.json()
         current_user = (
             (user.email, data.get('email')),
