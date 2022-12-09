@@ -1,5 +1,6 @@
 from recipes.models import Tag
-from rest_framework.serializers import ModelSerializer, ValidationError
+from rest_framework.serializers import ModelSerializer
+
 
 class TagSerializer(ModelSerializer):
 

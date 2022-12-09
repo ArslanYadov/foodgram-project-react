@@ -2,6 +2,7 @@ from django.db import models
 from recipes.validators import validate_color
 from users.models import User
 
+
 class Ingredient(models.Model):
     """Модель ингридиентов."""
     name = models.CharField(

@@ -4,6 +4,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from users.models import Follow, User
 
+
 class UserDetailSerializer(UserSerializer):
     """
     Переопределяем сериализатор для пользователя.
@@ -21,7 +22,7 @@ class UserDetailSerializer(UserSerializer):
             'last_name',
             'is_subscribed'
         )
-    
+
     def get_is_subscribed(self, obj):
         user = self.context.get('request').user
         if not user.is_authenticated:
@@ -36,7 +37,7 @@ class UserRegistrationSerializer(UserCreateSerializer):
     Валидация создания пользователя с username,
     который находится в зарезервированном списке.
     """
-    
+
     class Meta:
         model = User
         fields = (
@@ -53,7 +54,7 @@ class UserRegistrationSerializer(UserCreateSerializer):
                 fields=['username', 'email'],
             )
         ]
-    
+
     def validate_username(self, value):
         if value.lower() in RESERVED_USERNAME_LIST:
             raise serializers.ValidationError(
@@ -86,7 +87,7 @@ class FollowSerializer(UserDetailSerializer):
                 }
             )
         return following
-    
+
     class Meta:
         model = User
         fields = (
@@ -97,7 +98,7 @@ class FollowSerializer(UserDetailSerializer):
             'last_name',
             'is_subscribed'
         )
-    
+
         validators = [
             serializers.UniqueTogetherValidator(
                 queryset=Follow.objects.all(),
