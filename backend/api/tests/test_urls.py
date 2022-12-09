@@ -30,7 +30,7 @@ class UserUrlTests(APITestCase):
             'slug': 'breakfast'
         }
         tag = Tag.objects.create(**tag_data)
-        
+
         tag_id_url = self.tag_url + str(tag.id) + '/'
         response = self.client.get(path=tag_id_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
