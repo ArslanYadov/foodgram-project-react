@@ -10,7 +10,7 @@ help: ## вывод доступных команд
 	$(call find.functions)
 
 setup: ## mkmigrations migrate suser run
-setup: mkmigrations migrate suser run
+setup: mkmigrations migrate suser load run
 
 mkmigrations: ## makemigrations
 mkmigrations:
@@ -23,6 +23,10 @@ migrate:
 suser: ## createsuperuser
 suser:
 	cd $(MANAGE_PATH); python3 manage.py createsuperuser
+
+load: ## load initial data
+load:
+	cd $(MANAGE_PATH); python3 manage.py load_ingredients_data
 
 run: ## runserver
 run:
