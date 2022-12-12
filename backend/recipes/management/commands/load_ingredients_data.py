@@ -16,7 +16,9 @@ class Command(BaseCommand):
     def handle(self, *args: Any, **options: Any) -> Optional[str]:
         if Ingredient.objects.exists():
             self.stdout.write(
-                'Initial data [{}] is already exists.'.format(self.filename)
+                'Initial data '
+                '\033[0;33;48m{}\033[0;0m '
+                'already exists.'.format(self.filename)
             )
             return
 
