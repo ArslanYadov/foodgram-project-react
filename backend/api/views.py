@@ -1,7 +1,7 @@
 from api.serializers import IngredientSerializer, RecipesListSerializer, TagSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from recipes.models import Ingredient, Recipe, Tag
-from rest_framework import filters, viewsets
+from rest_framework import filters, viewsets, permissions
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
@@ -23,6 +23,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     """Отображение рецептов."""
     queryset = Recipe.objects.all()
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('author__username', 'tags__slug')
 
