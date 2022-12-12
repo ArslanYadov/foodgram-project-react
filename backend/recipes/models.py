@@ -91,15 +91,25 @@ class Recipe(models.Model):
 
 class IngredientAmountForRecipe(models.Model):
     """Промежуточная модель для количества ингредиентов."""
-    ingredient = models.ForeignKey(
-        Ingredient, on_delete=models.CASCADE, related_name='ingredient_amount'
-    )
     recipe = models.ForeignKey(
-        Recipe, on_delete=models.CASCADE, related_name='ingredient_amount'
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='ingredient_amount',
+        verbose_name='Рецепт'
+    )
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.CASCADE,
+        related_name='ingredient_amount',
+        verbose_name='Ингредиент'
     )
     amount = models.PositiveSmallIntegerField(
         verbose_name='Количество'
     )
 
+    class Meta:
+        verbose_name = 'Количество ингредиента'
+        verbose_name_plural = 'Количество ингредиентов'
+
     def __str__(self) -> str:
-        return '{} for {}'.format(self.ingredient, self.recipe)
+        return '{} {}'.format(self.ingredient, self.recipe)
