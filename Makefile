@@ -33,7 +33,7 @@ run:
 	cd $(MANAGE_PATH); python3 manage.py runserver
 
 clean: ## очистить кэш, удалить миграции, удалить бд
-clean: rmmigrations rmdb rmcache
+clean: rmmigrations rmdb rmcache rmmedia
 
 rmcache: ## очистка кэша
 rmcache:
@@ -46,3 +46,7 @@ rmdb:
 rmmigrations: ## удалить миграции
 rmmigrations:
 	find ./backend/ | grep -E 000* | xargs rm -f
+
+rmmedia: ## remove media
+rmmedia:
+	find ./backend | grep -E media | xargs rm -rf
