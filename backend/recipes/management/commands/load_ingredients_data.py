@@ -23,7 +23,7 @@ class Command(BaseCommand):
             return
 
         with open(self.file, 'rb') as fin:
-            data = json.load(fin)
+            data: list[dict[str, str]] = json.load(fin)
 
             for entry in tqdm(data):
                 ingredient = Ingredient()
