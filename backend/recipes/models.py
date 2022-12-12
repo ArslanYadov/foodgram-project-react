@@ -98,7 +98,7 @@ class IngredientAmountForRecipe(models.Model):
         Recipe, on_delete=models.CASCADE, related_name='ingredients'
     )
     amount = models.PositiveSmallIntegerField(
-        verbose_name='Количество в рецепте'
+        verbose_name='Количество'
     )
 
     def __str__(self) -> str:
