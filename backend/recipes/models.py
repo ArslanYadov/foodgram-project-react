@@ -68,10 +68,13 @@ class Recipe(models.Model):
     text = models.TextField(verbose_name='Описание')
     ingredients = models.ManyToManyField(
         Ingredient,
+        related_name='recipes',
+        through='IngredientAmountForRecipe',
         verbose_name='Список ингредиентов'
     )
     tags = models.ManyToManyField(
         Tag,
+        related_name='recipes',
         verbose_name='Список тегов'
     )
     coocking_time = models.PositiveIntegerField(
@@ -84,3 +87,19 @@ class Recipe(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class IngredientAmountForRecipe(models.Model):
+    """Промежуточная модель для количества ингредиентов."""
+    ingredient = models.ForeignKey(
+        Ingredient, on_delete=models.CASCADE, related_name='ingredients'
+    )
+    recipe = models.ForeignKey(
+        Recipe, on_delete=models.CASCADE, related_name='ingredients'
+    )
+    amount = models.PositiveSmallIntegerField(
+        verbose_name='Количество в рецепте'
+    )
+
+    def __str__(self) -> str:
+        return '{} for {}'.format(self.ingredient, self.recipe)

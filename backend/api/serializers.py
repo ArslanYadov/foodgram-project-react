@@ -1,15 +1,15 @@
 from recipes.models import Ingredient, Tag
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 
-class IngredientSerializer(ModelSerializer):
+class IngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ingredient
         fields = '__all__'
 
 
-class TagSerializer(ModelSerializer):
+class TagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tag
