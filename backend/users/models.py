@@ -72,9 +72,6 @@ class User(AbstractUser):
     objects = UserManager()
 
     def __str__(self) -> str:
-        return self.email
-
-    def get_username(self) -> str:
         return self.username
 
     class Meta:
