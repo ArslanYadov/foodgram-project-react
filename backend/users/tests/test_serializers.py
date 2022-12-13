@@ -16,9 +16,9 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
         self.user_info = {
             'first_name': 'Вася',
             'last_name': 'Пупкин',
-            'username': 'noobMaster2000',
-            'email': 'fake@mail.com',
-            'password': 'Best_Password_12345'
+            'username': 'vasya.pupkin',
+            'email': 'vpupkin@yandex.ru',
+            'password': 'Qwerty_123'
         }
         self.set_password_url = 'http://testserver/api/users/set_password/'
 
