@@ -96,7 +96,7 @@ class RecipeUrlTests(APITestCase):
             'slug': 'breakfast'
         }
         tag = Tag.objects.create(**tag_data)
-        
+
         user_data = {
             'first_name': 'Вася',
             'last_name': 'Пупкин',
