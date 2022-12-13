@@ -46,7 +46,7 @@ class Tag(models.Model):
         verbose_name_plural = 'Тэги'
 
     def __str__(self) -> str:
-        return self.name
+        return self.slug
 
 
 class Recipe(models.Model):
@@ -112,4 +112,27 @@ class IngredientAmountForRecipe(models.Model):
         verbose_name_plural = 'Количество ингредиентов'
 
     def __str__(self) -> str:
-        return '{} {}'.format(self.ingredient, self.recipe)
+        return '<{}> - <{}>'.format(self.ingredient, self.recipe)
+
+
+class Favorite(models.Model):
+    """Модель избранное."""
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='favorite_recipe',
+        verbose_name='Пользователь'
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='favorite_recipe',
+        verbose_name='Рецепт'
+    )
+
+    class Meta:
+        verbose_name = 'Избранный'
+        verbose_name_plural = 'Избранные'
+    
+    def __str__(self):
+        return '<{}> - <{}>'.format(self.recipe, self.user)
