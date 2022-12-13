@@ -1,4 +1,9 @@
-from api.serializers import IngredientSerializer, RecipesListSerializer, TagSerializer
+from api.serializers import (
+    IngredientSerializer,
+    RecipesListSerializer,
+    RecipeSerializer,
+    TagSerializer
+)
 from django_filters.rest_framework import DjangoFilterBackend
 from recipes.models import Ingredient, Recipe, Tag
 from rest_framework import filters, viewsets, permissions
@@ -30,3 +35,4 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method in ['GET']:
             return RecipesListSerializer
+        return RecipeSerializer
