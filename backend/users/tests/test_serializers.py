@@ -13,7 +13,7 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
     ]
 
     def setUp(self):
-        self.user_info = {
+        self.user_data = {
             'first_name': 'Вася',
             'last_name': 'Пупкин',
             'username': 'vasya.pupkin',
@@ -25,14 +25,14 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
     def _registrate_user(self):
         """Регистрация пользователя."""
         return self.client.post(
-            path=reverse('user-list'), data=self.user_info, format='json'
+            path=reverse('user-list'), data=self.user_data, format='json'
         )
 
     def _login_user(self):
         """Авторизация пользователя."""
         self._registrate_user()
         return self.client.post(
-            path=reverse('login'), data=self.user_info, format='json'
+            path=reverse('login'), data=self.user_data, format='json'
         )
 
     def test_registration_user(self):
@@ -43,10 +43,10 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
 
         new_user = User.objects.first()
         user_fields = (
-            (new_user.first_name, self.user_info.get('first_name')),
-            (new_user.last_name, self.user_info.get('last_name')),
-            (new_user.username, self.user_info.get('username')),
-            (new_user.email, self.user_info.get('email'))
+            (new_user.first_name, self.user_data.get('first_name')),
+            (new_user.last_name, self.user_data.get('last_name')),
+            (new_user.username, self.user_data.get('username')),
+            (new_user.email, self.user_data.get('email'))
         )
         for value, expected in user_fields:
             with self.subTest(value=value):
@@ -55,8 +55,8 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
     def test_registration_user_with_reserved_username(self):
         """Проверка регистрации пользователя по зарезервированному имени."""
         url = reverse('user-list')
-        self.user_info['username'] = random.choice(RESERVED_USERNAME_LIST)
-        response = self.client.post(url, data=self.user_info, format='json')
+        self.user_data['username'] = random.choice(RESERVED_USERNAME_LIST)
+        response = self.client.post(url, data=self.user_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
         data = response.json()
@@ -90,7 +90,7 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
     def test_non_authenticated_user_change_password(self):
         """Тест смены пароля не авторизованным пользователем."""
         respone = self.client.post(
-            path=self.set_password_url, data=self.user_info, format='json'
+            path=self.set_password_url, data=self.user_data, format='json'
         )
         self.assertEqual(respone.status_code, status.HTTP_401_UNAUTHORIZED)
 
@@ -102,7 +102,7 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         data = {
             'new_password': 'b3$t_P4ssw0RD',
-            'current_password': self.user_info.get('password')
+            'current_password': self.user_data.get('password')
         }
         response = self.client.post(
             path=self.set_password_url, data=data, format='json'
