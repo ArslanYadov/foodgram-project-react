@@ -31,8 +31,12 @@ class UserSerializersTests(APITestCase, URLPatternsTestCase):
     def _login_user(self):
         """Авторизация пользователя."""
         self._registrate_user()
+        login_user_data = {
+            'username': self.user_data.get('username'),
+            'password': self.user_data.get('password')
+        }
         return self.client.post(
-            path=reverse('login'), data=self.user_data, format='json'
+            path=reverse('login'), data=login_user_data, format='json'
         )
 
     def test_registration_user(self):
