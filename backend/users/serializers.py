@@ -28,7 +28,7 @@ class UserDetailSerializer(UserSerializer):
         user = self.context.get('request').user
         if not user.is_authenticated:
             return False
-        return Follow.objects.filter(user=user, author=obj.id).exists()
+        return obj.following.exists()
 
 
 class UserRegistrationSerializer(UserCreateSerializer):
@@ -100,14 +100,16 @@ class FollowSerializer(UserDetailSerializer):
         recipes = obj.recipes.all()
         if recipes_limit:
             recipes = recipes[:int(recipes_limit)]
-        return RecipeFollowSerializer(recipes, many=True).data
+        return RecipeShortSerializer(recipes, many=True).data
 
     def get_recipes_count(self, obj):
         return obj.recipes.count()
 
 
-class RecipeFollowSerializer(serializers.ModelSerializer):
-    """Сериализатор рецептов для отображения в подписках."""
+class RecipeShortSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для отображения рецепта с меньшим кол-вом полей.
+    """
 
     class Meta:
         model = Recipe
