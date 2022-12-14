@@ -3,6 +3,7 @@ from recipes.models import (
     Ingredient,
     IngredientAmountForRecipe,
     Recipe,
+    ShoppingCart,
     Tag
 )
 from rest_framework import serializers
@@ -42,11 +43,12 @@ class RecipesListSerializer(serializers.ModelSerializer):
     author = UserDetailSerializer()
     ingredients = serializers.SerializerMethodField()
     is_favorited = serializers.SerializerMethodField()
+    is_in_shopping_cart = serializers.SerializerMethodField()
 
     class Meta:
         model = Recipe
         fields = '__all__'
-        read_only_fields = ('ingredients', 'is_favorited')
+        read_only_fields = ('ingredients', 'is_favorited', 'is_in_shopping_cart')
     
     def get_ingredients(self, obj):
         queryset = obj.ingredient_amount.all()
@@ -57,6 +59,13 @@ class RecipesListSerializer(serializers.ModelSerializer):
         if not user.is_authenticated:
             return False
         return obj.favorite_recipe.exists()
+
+    def get_is_in_shopping_cart(self, obj):
+        user = self.context.get('request').user
+        if not user.is_authenticated:
+            return False
+        return obj.recipe_in_cart.exists()
+
 
 class RecipeSerializer(serializers.ModelSerializer):
     """Сериализатор рецептов для методов POST, PATCH и DEL."""
@@ -77,4 +86,21 @@ class FavoriteSerializer(serializers.ModelSerializer):
         recipe = attrs.get('recipe')
         if Favorite.objects.filter(user=user, recipe=recipe).exists():
             raise serializers.ValidationError('Данный рецепт уже добавлен в избранное.')
+        return attrs
+
+
+class ShoppingCart(serializers.ModelSerializer):
+    """Сериализатор для списка покупок."""
+    
+    class Meta:
+        model = ShoppingCart
+        fields = '__all__'
+
+    def validate(self, attrs):
+        user = self.context.get('request').user
+        if not user.is_authenticated:
+            return False
+        recipe = attrs.get('recipe')
+        if ShoppingCart.objects.filter(user=user, recipe=recipe).exists():
+            raise serializers.ValidationError('Данный рецепт уже добавлен в список покупок.')
         return attrs

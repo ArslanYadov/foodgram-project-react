@@ -4,6 +4,7 @@ from recipes.models import (
     Ingredient,
     IngredientAmountForRecipe,
     Recipe,
+    ShoppingCart,
     Tag
 )
 
@@ -11,5 +12,6 @@ from recipes.models import (
 admin.site.register(Favorite)
 admin.site.register(Ingredient)
 admin.site.register(IngredientAmountForRecipe)
+admin.site.register(ShoppingCart)
 admin.site.register(Tag)
 admin.site.register(Recipe)
