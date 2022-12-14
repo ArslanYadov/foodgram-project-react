@@ -49,14 +49,14 @@ class RecipesListSerializer(serializers.ModelSerializer):
         read_only_fields = ('ingredients', 'is_favorited')
     
     def get_ingredients(self, obj):
-        queryset = IngredientAmountForRecipe.objects.filter(recipe=obj)
+        queryset = obj.ingredient_amount.all()
         return IngredientAmountForRecipeSerializer(queryset, many=True).data
 
     def get_is_favorited(self, obj):
         user = self.context.get('request').user
         if not user.is_authenticated:
             return False
-        return Favorite.objects.filter(user=user, recipe=obj).exists()
+        return obj.favorite_recipe.exists()
 
 class RecipeSerializer(serializers.ModelSerializer):
     """Сериализатор рецептов для методов POST, PATCH и DEL."""
@@ -69,12 +69,12 @@ class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
         fields = '__all__'
-    
-    def validate(self, data):
+
+    def validate(self, attrs):
         user = self.context.get('request').user
         if not user.is_authenticated:
             return False
-        recipe = data.get('recipe')
+        recipe = attrs.get('recipe')
         if Favorite.objects.filter(user=user, recipe=recipe).exists():
             raise serializers.ValidationError('Данный рецепт уже добавлен в избранное.')
-        return data
+        return attrs
