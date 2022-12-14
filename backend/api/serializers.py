@@ -8,6 +8,7 @@ from recipes.models import (
 )
 from rest_framework import serializers
 from users.serializers import UserDetailSerializer
+from api.utils import Base64ImageField
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -69,7 +70,33 @@ class RecipesListSerializer(serializers.ModelSerializer):
 
 class RecipeSerializer(serializers.ModelSerializer):
     """Сериализатор рецептов для методов POST, PATCH и DEL."""
-    pass
+    ingredients = IngredientAmountForRecipeSerializer()
+    image = Base64ImageField()
+
+    class Meta:
+        model = Recipe
+        fields = (
+            'ingredients',
+            'tags',
+            'image',
+            'name',
+            'text',
+            'coocking_time'
+        )
+
+    def create(self, validated_data):
+        author = self.context.get('request').user
+        ingredients = validated_data.pop('ingredients')
+        tags = validated_data.pop('tags')
+        recipe = Recipe.objects.create(author=author, **validated_data)
+        recipe.tags.set(tags)
+        for ingredient in ingredients:
+            IngredientAmountForRecipe.objects.get_or_create(
+                recipe=recipe,
+                ingredients=ingredient.get('ingredient'),
+                amount=ingredient.get('amount')
+            )
+        return recipe
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
