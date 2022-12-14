@@ -11,6 +11,7 @@ help: ## вывод доступных команд
 
 setup: ## mkmigrations migrate suser run
 setup: mkmigrations migrate suser load run
+#setup: mkmigrations migrate load run
 
 mkmigrations: ## makemigrations
 mkmigrations:

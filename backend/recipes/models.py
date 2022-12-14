@@ -141,4 +141,4 @@ class Favorite(models.Model):
         verbose_name_plural = 'Избранные'
     
     def __str__(self):
-        return 'Пользователь: [{}]; Рецепт: [{}]'.format(self.user, self.recipe)
+        return 'Пользователь: [ {} ]; Рецепт: [ {} ]'.format(self.user, self.recipe)
