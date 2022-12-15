@@ -92,6 +92,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         ingredients = self.initial_data.get('ingredients')
         validated_ingrediets = []
+        unique_ingredients_id = []
         for ingredient in ingredients:
             ingredient_id = ingredient.get('id')
             if not Ingredient.objects.filter(id=ingredient_id).exists():
@@ -100,6 +101,15 @@ class RecipeSerializer(serializers.ModelSerializer):
                         'Не существующий ингредиент: {}'.format(ingredient_id)
                     )
                 })
+            
+            if ingredient_id in unique_ingredients_id:
+                raise serializers.ValidationError({
+                    'ingredient_id': (
+                        'Ингредиенты не должны повторяться.'
+                    )
+                })
+            unique_ingredients_id.append(ingredient_id)
+
             amount = ingredient.get('amount')
             validated_ingrediets.append(
                 {'id': ingredient_id, 'amount': amount}
