@@ -30,3 +30,8 @@ class Command(BaseCommand):
                 ingredient.name = entry.get('name')
                 ingredient.measurement_unit = entry.get('measurement_unit')
                 ingredient.save()
+
+        return self.stdout.write(
+            'Loading \033[1m{}\033[0m data successfully done.'
+            .format(self.filename)
+        )
