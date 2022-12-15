@@ -10,7 +10,7 @@ from api.serializers import (
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from recipes.models import Favorite, Ingredient, Recipe, Tag, ShoppingCart
-from rest_framework import filters, viewsets, permissions, response, status
+from rest_framework import filters, viewsets, permissions, response, serializers, status
 from rest_framework.decorators import action
 
 
@@ -91,4 +91,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
         permission_classes=[permissions.IsAuthenticated]
     )
     def download_shopping_cart(self, request):
-        return response.Response(data={'Not allow yet'})
+        user = self.request.user
+        if not user.recipe_in_cart.exists():
+            raise serializers.ValidationError({
+                'error': 'В списке покупок нет ни одного рецепта.'
+            })
