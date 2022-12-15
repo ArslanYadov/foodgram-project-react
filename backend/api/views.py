@@ -1,16 +1,18 @@
 from api.permissions import IsAuthorAdminModerOrReadOnly
 from api.serializers import (
-    IngredientSerializer,
     FavoriteSerializer,
-    ShoppingCartSerializer,
+    IngredientSerializer,
     RecipesListSerializer,
     RecipeSerializer,
+    ShoppingCartSerializer,
     TagSerializer
 )
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from recipes.models import Favorite, Ingredient, Recipe, Tag, ShoppingCart
-from rest_framework import filters, viewsets, permissions, response, serializers, status
+from recipes.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag
+from rest_framework import (
+    filters, permissions, response, serializers, status, viewsets
+)
 from rest_framework.decorators import action
 
 

@@ -101,7 +101,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                         'Не существующий ингредиент: {}'.format(ingredient_id)
                     )
                 })
-            
+
             if ingredient_id in unique_ingredients_id:
                 raise serializers.ValidationError({
                     'ingredient_id': (
