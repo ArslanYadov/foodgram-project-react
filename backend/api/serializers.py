@@ -25,7 +25,7 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = '__all__'
-    
+
 
 class IngredientAmountForRecipeSerializer(serializers.ModelSerializer):
     """Сериализатор для ингредиентов с количеством."""
@@ -68,9 +68,18 @@ class RecipesListSerializer(serializers.ModelSerializer):
         return obj.recipe_in_cart.exists()
 
 
+class AddAmountToIngredient(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    amount = serializers.IntegerField()
+
+    class Meta:
+        model = IngredientAmountForRecipe
+        fields = ('id', 'amount')
+
+
 class RecipeSerializer(serializers.ModelSerializer):
-    """Сериализатор рецептов для методов POST, PATCH и DEL."""
-    ingredients = IngredientAmountForRecipeSerializer()
+    """Сериализатор рецептов для методов POST, PATCH."""
+    ingredients = AddAmountToIngredient(many=True)
     image = Base64ImageField()
 
     class Meta:
@@ -81,8 +90,16 @@ class RecipeSerializer(serializers.ModelSerializer):
             'image',
             'name',
             'text',
-            'coocking_time'
+            'cooking_time'
         )
+    
+    def _set_amount_to_ingredient(self, recipe, ingredients):
+        for ingredient in ingredients:
+            IngredientAmountForRecipe.objects.create(
+                recipe=recipe,
+                ingredient_id=ingredient.get('id'),
+                amount=ingredient.get('amount')
+            )
 
     def create(self, validated_data):
         author = self.context.get('request').user
@@ -90,12 +107,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         tags = validated_data.pop('tags')
         recipe = Recipe.objects.create(author=author, **validated_data)
         recipe.tags.set(tags)
-        for ingredient in ingredients:
-            IngredientAmountForRecipe.objects.get_or_create(
-                recipe=recipe,
-                ingredients=ingredient.get('ingredient'),
-                amount=ingredient.get('amount')
-            )
+        self._set_amount_to_ingredient(recipe, ingredients)
         return recipe
 
 
