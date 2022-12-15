@@ -85,3 +85,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return self._delete_action(
             request=request, pk=pk, klass=ShoppingCart
         )
+
+    @action(
+        methods=['GET'], detail=False,
+        permission_classes=[permissions.IsAuthenticated]
+    )
+    def download_shopping_cart(self, request):
+        return response.Response(data={'Not allow yet'})
