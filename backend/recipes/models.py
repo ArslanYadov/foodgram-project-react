@@ -77,7 +77,7 @@ class Recipe(models.Model):
         related_name='recipes',
         verbose_name='Список тегов'
     )
-    coocking_time = models.PositiveIntegerField(
+    cooking_time = models.PositiveIntegerField(
         verbose_name='Время приготовления'
     )
 
@@ -112,7 +112,7 @@ class IngredientAmountForRecipe(models.Model):
         verbose_name_plural = 'Количество ингредиентов'
 
     def __str__(self) -> str:
-        return 'Рецепт: [{}]; Ингредиент: [{}]'.format(self.recipe, self.ingredient)
+        return 'Рецепт: [ {} ]; Ингредиент: [ {} ]'.format(self.recipe, self.ingredient)
 
 
 class Favorite(models.Model):
@@ -156,7 +156,7 @@ class ShoppingCart(models.Model):
         related_name='recipe_in_cart',
         verbose_name='Рецепт'
     )
-    
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
