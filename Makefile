@@ -28,6 +28,7 @@ suser:
 load: ## load initial data
 load:
 	cd $(MANAGE_PATH); python3 manage.py load_ingredients_data
+	cd $(MANAGE_PATH); python3 manage.py load_tags_data
 
 run: ## runserver
 run:
