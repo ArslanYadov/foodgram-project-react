@@ -118,7 +118,11 @@ class IngredientAmountForRecipe(models.Model):
         ]
 
     def __str__(self) -> str:
-        return 'Рецепт: [ {} ]; Ингредиент: [ {} ]'.format(self.recipe, self.ingredient)
+        return (
+            'Рецепт: [ {} ]; '
+            'Ингредиент: [ {} ]'
+            .format(self.recipe, self.ingredient)
+        )
 
 
 class Favorite(models.Model):
@@ -144,9 +148,13 @@ class Favorite(models.Model):
         ]
         verbose_name = 'Избранный'
         verbose_name_plural = 'Избранные'
-    
+
     def __str__(self):
-        return 'Пользователь: [ {} ]; Рецепт: [ {} ]'.format(self.user, self.recipe)
+        return (
+            'Пользователь: [ {} ]; '
+            'Рецепт: [ {} ]'
+            .format(self.user, self.recipe)
+        )
 
 
 class ShoppingCart(models.Model):
@@ -172,6 +180,10 @@ class ShoppingCart(models.Model):
         ]
         verbose_name = 'Список покупок'
         verbose_name_plural = 'Списки покупок'
-    
+
     def __str__(self):
-        return 'Пользователь: [ {} ]; Рецепт: [ {} ]'.format(self.user, self.recipe)
+        return (
+            'Пользователь: [ {} ]; '
+            'Рецепт: [ {} ]'
+            .format(self.user, self.recipe)
+        )
