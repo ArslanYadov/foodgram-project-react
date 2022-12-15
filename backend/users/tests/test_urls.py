@@ -36,7 +36,9 @@ class FollowUrlTests(APITestCase):
         self._login_user()
         token = Token.objects.first()
         if mode:
-            return self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+            return self.client.credentials(
+                HTTP_AUTHORIZATION='Token ' + token.key
+            )
         return self.client.credentials()
 
     def test_not_authenticated_user_get_follow_list(self):
@@ -53,7 +55,11 @@ class FollowUrlTests(APITestCase):
         не авторизованному пользователю.
         """
         user = User.objects.create(**self.user_data)
-        subscribe_url = 'http://testserver/api/users/{id}/subscribe/'.format(id=user.id)
+        subscribe_url = (
+            'http://testserver/api/users/'
+            '{id}/subscribe/'
+            .format(id=user.id)
+        )
         response = self.client.get(path=subscribe_url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 

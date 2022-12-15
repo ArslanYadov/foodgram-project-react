@@ -80,7 +80,7 @@ class User(AbstractUser):
         ]
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
-    
+
     def __str__(self) -> str:
         return self.username
 
@@ -109,6 +109,10 @@ class Follow(models.Model):
         ]
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
-    
+
     def __str__(self):
-        return 'Автор: [ {} ]; Подписчик: [ {} ]'.format(self.author, self.user)
+        return (
+            'Автор: [ {} ]; '
+            'Подписчик: [ {} ]'
+            .format(self.author, self.user)
+        )
