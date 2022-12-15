@@ -64,13 +64,13 @@ class RecipesListSerializer(serializers.ModelSerializer):
         user = self.context.get('request').user
         if not user.is_authenticated:
             return False
-        return obj.favorite_recipe.exists()
+        return user.favorite_recipe.exists()
 
     def get_is_in_shopping_cart(self, obj):
         user = self.context.get('request').user
         if not user.is_authenticated:
             return False
-        return obj.recipe_in_cart.exists()
+        return user.recipe_in_cart.exists()
 
 
 class RecipeSerializer(serializers.ModelSerializer):
@@ -189,8 +189,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
         user = self.context.get('request').user
         if not user.is_authenticated:
             return False
-        recipe = attrs.get('recipe')
-        if Favorite.objects.filter(user=user, recipe=recipe).exists():
+        if user.favorite_recipe.exists():
             raise serializers.ValidationError(
                 {'error': 'Данный рецепт уже добавлен в избранное.'}
             )
@@ -215,8 +214,7 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
         user = self.context.get('request').user
         if not user.is_authenticated:
             return False
-        recipe = attrs.get('recipe')
-        if ShoppingCart.objects.filter(user=user, recipe=recipe).exists():
+        if user.recipe_in_cart.exists():
             raise serializers.ValidationError(
                 {'error': 'Данный рецепт уже добавлен в список покупок.'}
             )
