@@ -96,7 +96,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             ingredient_id = ingredient.get('id')
             if not Ingredient.objects.filter(id=ingredient_id).exists():
                 raise serializers.ValidationError({
-                    'ingredients': (
+                    'ingredient_id': (
                         'Не существующий ингредиент: {}'.format(ingredient_id)
                     )
                 })
@@ -124,7 +124,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         recipe.tags.set(tags)
         self._set_amount_to_ingredient(recipe, ingredients)
         return recipe
-    
+
     def update(self, instance, validated_data):
         recipe = instance
         recipe.image = validated_data.get(
@@ -148,10 +148,10 @@ class RecipeSerializer(serializers.ModelSerializer):
         if ingredients:
             recipe.ingredients.clear()
             self._set_amount_to_ingredient(recipe, ingredients)
-        
+
         recipe.save()
         return recipe
-    
+
     def to_representation(self, instance):
         request = self.context.get('request')
         context = {'request': request}
@@ -185,7 +185,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
                 {'error': 'Данный рецепт уже добавлен в избранное.'}
             )
         return attrs
-    
+
     def to_representation(self, instance):
         request = self.context.get('request')
         return RecipeShortSerializer(
@@ -194,7 +194,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
         ).data
 
 
-class ShoppingCart(serializers.ModelSerializer):
+class ShoppingCartSerializer(serializers.ModelSerializer):
     """Сериализатор для списка покупок."""
 
     class Meta:
