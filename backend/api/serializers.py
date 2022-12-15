@@ -158,6 +158,16 @@ class RecipeSerializer(serializers.ModelSerializer):
         return RecipesListSerializer(instance, context=context).data
 
 
+class RecipeShortSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для отображения рецепта с меньшим кол-вом полей.
+    """
+
+    class Meta:
+        model = Recipe
+        fields = ('id', 'name', 'image', 'cooking_time')
+
+
 class FavoriteSerializer(serializers.ModelSerializer):
     """Сериализатор для избранных рецептов."""
 
@@ -172,9 +182,16 @@ class FavoriteSerializer(serializers.ModelSerializer):
         recipe = attrs.get('recipe')
         if Favorite.objects.filter(user=user, recipe=recipe).exists():
             raise serializers.ValidationError(
-                'Данный рецепт уже добавлен в избранное.'
+                {'error': 'Данный рецепт уже добавлен в избранное.'}
             )
         return attrs
+    
+    def to_representation(self, instance):
+        request = self.context.get('request')
+        return RecipeShortSerializer(
+            instance.recipe,
+            context={'request': request}
+        ).data
 
 
 class ShoppingCart(serializers.ModelSerializer):
@@ -191,6 +208,13 @@ class ShoppingCart(serializers.ModelSerializer):
         recipe = attrs.get('recipe')
         if ShoppingCart.objects.filter(user=user, recipe=recipe).exists():
             raise serializers.ValidationError(
-                'Данный рецепт уже добавлен в список покупок.'
+                {'error': 'Данный рецепт уже добавлен в список покупок.'}
             )
         return attrs
+
+    def to_representation(self, instance):
+        request = self.context.get('request')
+        return RecipeShortSerializer(
+            instance.recipe,
+            context={'request': request}
+        ).data
