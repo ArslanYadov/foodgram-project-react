@@ -1,3 +1,4 @@
+from api.permissions import IsAuthorAdminModerOrReadOnly
 from api.serializers import (
     IngredientSerializer,
     RecipesListSerializer,
@@ -28,7 +29,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     """Отображение рецептов."""
     queryset = Recipe.objects.all()
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthorAdminModerOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('author__username', 'tags__slug')
 
