@@ -118,9 +118,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 ingredients.append(ingredient)
 
         shopping_cart_out = 'Список покупок:\n'
-        for name, amount, measurement_unit in ingredients:
-            shopping_cart_out += '- {} {} {}.\n'.format(
-                name, amount, measurement_unit
+        for name, measurement_unit, amount in ingredients:
+            shopping_cart_out += '\u00B7 {} ({}) \u2014 {}\n'.format(
+                name, measurement_unit, amount
             )
 
         response = HttpResponse(
