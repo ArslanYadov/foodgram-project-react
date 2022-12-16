@@ -7,6 +7,7 @@ from api.serializers import (
     ShoppingCartSerializer,
     TagSerializer
 )
+from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from recipes.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag
@@ -98,3 +99,31 @@ class RecipeViewSet(viewsets.ModelViewSet):
             raise serializers.ValidationError({
                 'error': 'В списке покупок нет ни одного рецепта.'
             })
+
+        recipe_id_list = user.recipe_in_cart.values_list('recipe_id')
+        recipe_list = []
+        for (id, ) in recipe_id_list:
+            recipe_list.append(
+                Recipe.objects.filter(id=id)
+                .values_list(
+                    'ingredients__name',
+                    'ingredients__ingredient_amount__amount',
+                    'ingredients__measurement_unit'
+                )
+            )
+        
+        ingredients = []
+        for recipe in recipe_list:
+            for ingredient in recipe:
+                ingredients.append(ingredient)
+        
+        shopping_cart_out = 'Список покупок:\n'
+        for name, amount, measurement_unit in ingredients:
+            shopping_cart_out += '- {} {} {}.\n'.format(name, amount, measurement_unit)
+
+        response = HttpResponse(
+            shopping_cart_out, content_type='text.txt; charset=utf-8'
+        )
+        filename = str(user) + '-shopping-list' + '.txt'
+        response['Content-Disposition'] = f'attachment; filename={filename}'
+        return response
