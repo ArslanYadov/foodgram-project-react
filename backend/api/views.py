@@ -107,8 +107,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 Recipe.objects.filter(id=id)
                 .values_list(
                     'ingredients__name',
-                    'ingredients__ingredient_amount__amount',
-                    'ingredients__measurement_unit'
+                    'ingredients__measurement_unit',
+                    'ingredients__ingredient_amount__amount'
                 )
             )
 
