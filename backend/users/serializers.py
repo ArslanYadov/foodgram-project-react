@@ -28,7 +28,7 @@ class UserDetailSerializer(UserSerializer):
         user = self.context.get('request').user
         if not user.is_authenticated:
             return False
-        return obj.following.exists()
+        return user.follower.filter(author=obj).exists()
 
 
 class UserRegistrationSerializer(UserCreateSerializer):
