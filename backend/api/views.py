@@ -111,15 +111,17 @@ class RecipeViewSet(viewsets.ModelViewSet):
                     'ingredients__measurement_unit'
                 )
             )
-        
+
         ingredients = []
         for recipe in recipe_list:
             for ingredient in recipe:
                 ingredients.append(ingredient)
-        
+
         shopping_cart_out = 'Список покупок:\n'
         for name, amount, measurement_unit in ingredients:
-            shopping_cart_out += '- {} {} {}.\n'.format(name, amount, measurement_unit)
+            shopping_cart_out += '- {} {} {}.\n'.format(
+                name, amount, measurement_unit
+            )
 
         response = HttpResponse(
             shopping_cart_out, content_type='text.txt; charset=utf-8'
