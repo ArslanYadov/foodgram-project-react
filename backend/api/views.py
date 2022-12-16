@@ -112,15 +112,24 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 )
             )
 
-        ingredients = []
+        ingredients = {}
         for recipe in recipe_list:
-            for ingredient in recipe:
-                ingredients.append(ingredient)
+            for (name, measurement_unit, amount) in recipe:
+                if name not in ingredients:
+                    ingredients[name] = {
+                        'name': name,
+                        'measurement_unit': measurement_unit,
+                        'amount': amount
+                    }
+                else:
+                    ingredients[name]['amount'] += amount
 
-        shopping_cart_out = 'Список покупок:\n'
-        for name, measurement_unit, amount in ingredients:
+        shopping_cart_out = 'Ваш список покупок:\n'
+        for ingredient in ingredients.values():
             shopping_cart_out += '\u00B7 {} ({}) \u2014 {}\n'.format(
-                name, measurement_unit, amount
+                ingredient['name'].capitalize(),
+                ingredient['measurement_unit'],
+                ingredient['amount']
             )
 
         response = HttpResponse(
