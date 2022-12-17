@@ -1,5 +1,6 @@
-# Foodgram 
 [![Build Status](https://github.com/ArslanYadov/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)](https://github.com/ArslanYadov/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
+
+# Foodgram
 
 ### Request
 ``` bash
