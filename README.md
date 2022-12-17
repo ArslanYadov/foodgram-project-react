@@ -6,7 +6,7 @@
 $ curl http://localhost:8000/api/recipes/
 ```
 ### Response
-``` bash
+``` json
 {
     "count": 1,
     "next": null,
