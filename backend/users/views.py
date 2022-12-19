@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
 from rest_framework import generics, permissions, response, status
@@ -35,6 +36,7 @@ class FollowCreateDestroyViewSet(
     serializer_class = FollowSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         user_id = self.kwargs.get('user_id')
         if user_id == request.user.id:
@@ -57,6 +59,7 @@ class FollowCreateDestroyViewSet(
             status=status.HTTP_201_CREATED
         )
 
+    @transaction.atomic
     def delete(self, request, *args, **kwargs):
         user_id = self.kwargs.get('user_id')
         follow = Follow.objects.filter(
