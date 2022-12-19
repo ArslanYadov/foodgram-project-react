@@ -7,6 +7,7 @@ from api.serializers import (
     ShoppingCartSerializer,
     TagSerializer
 )
+from django.db import transaction
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -45,6 +46,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return RecipesListSerializer
         return RecipeSerializer
 
+    @transaction.atomic
     def _create_action(self, request, pk, serializer):
         data = {'user': request.user.id, 'recipe': pk}
         serializer = serializer(data=data, context={'request': request})
@@ -54,6 +56,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             serializer.data, status=status.HTTP_201_CREATED
         )
 
+    @transaction.atomic
     def _delete_action(self, request, pk, klass):
         user = request.user
         recipe = get_object_or_404(Recipe, pk=pk)
