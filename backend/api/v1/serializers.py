@@ -8,7 +8,7 @@ from recipes.models import (
 )
 from rest_framework import serializers
 from users.serializers import UserDetailSerializer
-from api.utils import Base64ImageField
+from api.v1.utils import Base64ImageField
 
 
 class IngredientSerializer(serializers.ModelSerializer):
