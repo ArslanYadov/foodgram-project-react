@@ -1,5 +1,5 @@
-from api.v1.permissions import IsAuthorAdminModerOrReadOnly
-from api.v1.serializers import (
+from api.permissions import IsAuthorAdminModerOrReadOnly
+from api.serializers import (
     FavoriteSerializer,
     IngredientSerializer,
     RecipesListSerializer,
