@@ -1,4 +1,5 @@
 from api.utils import Base64ImageField
+from django.db import transaction
 from recipes.models import (
     Favorite,
     Ingredient,
@@ -128,6 +129,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                 amount=ingredient.get('amount')
             )
 
+    @transaction.atomic
     def create(self, validated_data):
         validated_data['author'] = self.context.get('request').user
         ingredients = validated_data.pop('ingredients')
@@ -137,6 +139,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         self._set_amount_to_ingredient(recipe, ingredients)
         return recipe
 
+    @transaction.atomic
     def update(self, instance, validated_data):
         recipe = instance
 
