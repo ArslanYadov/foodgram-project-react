@@ -81,8 +81,8 @@ $ curl http://localhost:8000/api/recipes/
 * [Python 3.10.6](https://docs.python.org/3.10/)
 * [Django 4.1.4](https://docs.djangoproject.com/en/4.1/) + [REST](https://www.django-rest-framework.org/)
 ## Запуск проекта на данный момент
-- В `settings.py` раскомментить нужную БД. (сейчас для дебага используется _sqlite_)
 - Добавить в свой файл с переменными окружения `.env` значения переменных по примеру из файла `.env.template`
+- Для тестирования установить `DEBUG=True` и использовать _sqlite3_ ([!]на боевом сервере поставить `False` для подключения _postgresql_)
 - Воспользоваться командой `make setup` из файла **Makefile** для сбора и запуска проекта на локальном сервере
 ``` bash
 $ make setup
