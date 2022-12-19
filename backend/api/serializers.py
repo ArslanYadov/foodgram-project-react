@@ -139,21 +139,9 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         recipe = instance
-        recipe.image = validated_data.get(
-            'image', recipe.image
-        )
-        recipe.name = validated_data.get(
-            'name', recipe.name
-        )
-        recipe.text = validated_data.get(
-            'text', recipe.text
-        )
-        recipe.cooking_time = validated_data.get(
-            'cooking_time', recipe.cooking_time
-        )
 
-        tags = validated_data.get('tags')
-        ingredients = validated_data.get('ingredients')
+        tags = validated_data.pop('tags')
+        ingredients = validated_data.pop('ingredients')
         if tags:
             recipe.tags.clear()
             recipe.tags.set(tags)
@@ -161,8 +149,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             recipe.ingredients.clear()
             self._set_amount_to_ingredient(recipe, ingredients)
 
-        recipe.save()
-        return recipe
+        return super().update(recipe, validated_data)
 
     def to_representation(self, instance):
         request = self.context.get('request')
