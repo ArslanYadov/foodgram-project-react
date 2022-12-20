@@ -61,7 +61,9 @@ class RecipeAdmin(admin.ModelAdmin):
     def ingredient_inline(self, *args, **kwargs):
         from django.template.loader import get_template
         context = getattr(self.response, 'context_data', None) or {}
-        context['inline_admin_formset'] = context['inline_admin_formsets'].pop(0)
+        context['inline_admin_formset'] = (
+            context['inline_admin_formsets'].pop(0)
+        )
         inline = context['inline_admin_formset']
         return get_template(inline.opts.template).render(context, self.request)
 
