@@ -1,3 +1,4 @@
+from api.filters import IngredientSearchFilter
 from api.permissions import IsAuthorAdminModerOrReadOnly
 from api.serializers import (
     FavoriteSerializer,
@@ -23,7 +24,7 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     pagination_class = None
-    filter_backends = (filters.SearchFilter,)
+    filter_backends = (IngredientSearchFilter,)
     search_fields = ('$name',)
 
 
