@@ -134,6 +134,7 @@ DJOSER = {
         'user_list': ['rest_framework.permissions.AllowAny'],
     },
     'HIDE_USERS': False,
+    'LOGIN_FIELD': 'email',
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
