@@ -14,7 +14,7 @@ from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from recipes.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag
 from rest_framework import (
-    filters, permissions, response, serializers, status, viewsets
+    permissions, response, serializers, status, viewsets
 )
 from rest_framework.decorators import action
 
@@ -139,6 +139,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         response = HttpResponse(
             shopping_cart_out, content_type='text.txt; charset=utf-8'
         )
+
         filename = str(user) + '-shopping-list' + '.txt'
         response['Content-Disposition'] = f'attachment; filename={filename}'
         return response
