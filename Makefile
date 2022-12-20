@@ -1,4 +1,5 @@
 MANAGE_PATH='./backend'
+PATH_TO_DOCKER_COMPOSE='./infra'
 
 define find.functions
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
@@ -9,30 +10,37 @@ help: ## вывод доступных команд
 	@echo ''
 	$(call find.functions)
 
-setup: ## mkmigrations migrate suser run
-setup: mkmigrations migrate suser load run
-#setup: mkmigrations migrate load run
+setup: ## compose-up mkmigrations migrate suser load-initial-data collecstatic
+setup: up mkmigrations migrate suser load static
+
+up: ## docker compose up
+up:
+	cd $(PATH_TO_DOCKER_COMPOSE); sudo docker compose up -d --build
+
+down: ## docker compose down
+down:
+	cd $(PATH_TO_DOCKER_COMPOSE); sudo docker compose down -v
 
 mkmigrations: ## makemigrations
 mkmigrations:
-	cd $(MANAGE_PATH); python3 manage.py makemigrations
+	cd $(PATH_TO_DOCKER_COMPOSE); sudo docker compose exec web python manage.py makemigrations
 
 migrate: ## migrate
 migrate:
-	cd $(MANAGE_PATH); python3 manage.py migrate
+	cd $(PATH_TO_DOCKER_COMPOSE); sudo docker compose exec web python manage.py migrate
 
 suser: ## createsuperuser
 suser:
-	cd $(MANAGE_PATH); python3 manage.py createsuperuser
+	cd $(PATH_TO_DOCKER_COMPOSE); sudo docker compose exec web python manage.py createsuperuser
 
 load: ## load initial data
 load:
-	cd $(MANAGE_PATH); python3 manage.py load_ingredients_data
-	cd $(MANAGE_PATH); python3 manage.py load_tags_data
+	cd $(PATH_TO_DOCKER_COMPOSE); sudo docker compose exec web python manage.py load_ingredients_data
+	cd $(PATH_TO_DOCKER_COMPOSE); sudo docker compose exec web python manage.py load_tags_data
 
-run: ## runserver
-run:
-	cd $(MANAGE_PATH); python3 manage.py runserver
+static: ## collectstatic
+static:
+	cd $(PATH_TO_DOCKER_COMPOSE); sudo docker compose exec web python manage.py collectstatic --no-input
 
 clean: ## очистить кэш, удалить миграции, удалить бд
 clean: rmmigrations rmdb rmcache rmmedia
@@ -52,3 +60,11 @@ rmmigrations:
 rmmedia: ## remove media
 rmmedia:
 	find ./backend | grep -E media | xargs rm -rf
+
+images: ## docker images
+images:
+	sudo docker images
+
+cntrls: ## docker container ls -a
+cntrls:
+	sudo docker container ls -a
