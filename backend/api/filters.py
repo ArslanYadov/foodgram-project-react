@@ -1,7 +1,6 @@
 from django_filters import rest_framework as filters
 from recipes.models import Recipe
 from rest_framework.filters import SearchFilter
-from users.models import User
 
 
 class IngredientSearchFilter(SearchFilter):
@@ -38,7 +37,7 @@ class RecipeFilter(filters.FilterSet):
         )
 
     def get_filter_field(self, queryset, name, value):
-        if not value:
+        if not value and not self.request.user.is_authenticated:
             return queryset
         if name == 'is_favorited':
             return queryset.filter(
