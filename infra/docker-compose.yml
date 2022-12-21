@@ -22,8 +22,6 @@ services:
     image: arsyy/foodgram_frontend:latest
     volumes:
       - ../frontend/:/app/result_build/
-    depends_on:
-      - web
 
   nginx:
     image: nginx:1.19.3
@@ -36,7 +34,7 @@ services:
       - static_value:/var/html/backend_static/
       - media_value:/var/html/backend_media/
     depends_on:
-      - frontend
+      - web
 
 volumes:
   postrges_dbdate:
