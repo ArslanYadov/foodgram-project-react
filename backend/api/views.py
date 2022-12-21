@@ -9,6 +9,7 @@ from api.serializers import (
     ShoppingCartSerializer,
     TagSerializer
 )
+from api.utils import get_shopping_cart_footer
 from django.db import transaction
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -137,6 +138,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 ingredient['measurement_unit'],
                 ingredient['amount']
             )
+        shopping_cart_out += get_shopping_cart_footer()
 
         response = HttpResponse(
             shopping_cart_out, content_type='text/plain; charset=utf-8'
