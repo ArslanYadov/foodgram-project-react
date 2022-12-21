@@ -51,3 +51,7 @@ class RecipeFilter(filters.FilterSet):
             return queryset.filter(
                 author=self.request.user
             )
+        else:
+            return queryset.filter(
+                author__id=value
+            )
