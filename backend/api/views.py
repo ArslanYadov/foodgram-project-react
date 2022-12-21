@@ -1,4 +1,4 @@
-from api.filters import IngredientSearchFilter
+from api.filters import IngredientSearchFilter, RecipeFilter
 from api.permissions import IsAuthorAdminModerOrReadOnly
 from api.serializers import (
     FavoriteSerializer,
@@ -40,7 +40,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     permission_classes = (IsAuthorAdminModerOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('author__username', 'tags__slug')
+    #filterset_fields = ('author__username', 'tags__slug')
+    filterset_class = RecipeFilter
 
     def get_serializer_class(self):
         if self.request.method in ['GET']:
@@ -137,9 +138,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
             )
 
         response = HttpResponse(
-            shopping_cart_out, content_type='text.txt; charset=utf-8'
+            shopping_cart_out, content_type='text/plain; charset=utf-8'
         )
 
         filename = str(user) + '-shopping-list' + '.txt'
-        response['Content-Disposition'] = f'attachment; filename={filename}'
+        response['Content-Disposition'] = 'attachment; filename={}'.format(filename)
         return response
