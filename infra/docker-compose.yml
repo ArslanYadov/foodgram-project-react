@@ -8,10 +8,7 @@ services:
       - ./.env
 
   web:
-    #image: <login>/<image_from_dockerhub>:<version>
-    build:
-      context: ../backend
-      dockerfile: Dockerfile
+    image: arsyy/foodgram:latest
     restart: always
     volumes:
       - static_value:/app/backend_static/
