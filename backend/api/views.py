@@ -4,6 +4,7 @@ from api.permissions import IsAuthorAdminModerOrReadOnly
 from api.serializers import (
     FavoriteSerializer,
     IngredientSerializer,
+    IngredientAmountForRecipe,
     RecipesListSerializer,
     RecipeSerializer,
     ShoppingCartSerializer,
@@ -108,28 +109,24 @@ class RecipeViewSet(viewsets.ModelViewSet):
             })
 
         recipe_id_list = user.recipe_in_cart.values_list('recipe_id')
-        recipe_list = []
-        for (id, ) in recipe_id_list:
-            recipe_list.append(
-                Recipe.objects.filter(id=id)
-                .values_list(
-                    'ingredients__name',
-                    'ingredients__measurement_unit',
-                    'ingredients__ingredient_amount__amount'
-                )
-            )
+        recipe_in_cart_list = IngredientAmountForRecipe.objects.filter(
+            recipe__in=recipe_id_list
+        ).values_list(
+            'ingredient__name',
+            'ingredient__measurement_unit',
+            'amount'
+        )
 
         ingredients = {}
-        for recipe in recipe_list:
-            for (name, measurement_unit, amount) in recipe:
-                if name not in ingredients:
-                    ingredients[name] = {
-                        'name': name,
-                        'measurement_unit': measurement_unit,
-                        'amount': amount
-                    }
-                else:
-                    ingredients[name]['amount'] += amount
+        for (name, measurement_unit, amount) in recipe_in_cart_list:
+            if name not in ingredients:
+                ingredients[name] = {
+                    'name': name,
+                    'measurement_unit': measurement_unit,
+                    'amount': amount
+                }
+            else:
+                ingredients[name]['amount'] += amount
 
         shopping_cart_out = 'Ваш список покупок:\n'
         for ingredient in ingredients.values():
