@@ -119,6 +119,8 @@ class RecipeSerializer(serializers.ModelSerializer):
             )
 
         attrs['ingredients'] = validated_ingrediets
+        attrs['name'] = str(self.initial_data.get('name')).capitalize()
+        attrs['text'] = str(self.initial_data.get('text')).capitalize()
         return attrs
 
     def _set_amount_to_ingredient(self, recipe, ingredients):
