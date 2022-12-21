@@ -143,5 +143,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         )
 
         filename = str(user) + '-shopping-list' + '.txt'
-        response['Content-Disposition'] = 'attachment; filename={}'.format(filename)
+        response['Content-Disposition'] = (
+            'attachment; filename={}'.format(filename)
+        )
         return response
