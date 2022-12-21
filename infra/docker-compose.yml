@@ -5,7 +5,7 @@ services:
     volumes:
       - postrges_dbdate:/var/lib/postgres/data/
     env_file:
-      - ../.env
+      - ./.env
 
   web:
     #image: <login>/<image_from_dockerhub>:<version>
@@ -19,7 +19,7 @@ services:
     depends_on:
       - db
     env_file:
-      - ../.env
+      - ./.env
 
   frontend:
     build:
