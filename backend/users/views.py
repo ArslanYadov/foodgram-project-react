@@ -1,3 +1,4 @@
+from api.paginations import CustomPagination
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
@@ -19,6 +20,7 @@ class FollowListViewSet(generics.ListAPIView):
     Доступность: только авторизованный пользователь.
     """
     serializer_class = FollowSerializer
+    pagination_class = CustomPagination
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
