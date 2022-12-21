@@ -38,9 +38,9 @@ class RecipeFilter(filters.FilterSet):
             return queryset
         if name == 'is_favorited':
             return queryset.filter(
-                recipe_in_cart=self.request.user
+                favorite__user=self.request.user
             )
         if name == 'is_in_shopping_cart':
             return queryset.filter(
-                favorite_recipe=self.request.user
+                shoppingcart__user=self.request.user
             )
