@@ -1,6 +1,7 @@
 from django_filters import rest_framework as filters
 from recipes.models import Recipe
 from rest_framework.filters import SearchFilter
+from users.models import User
 
 
 class IngredientSearchFilter(SearchFilter):
@@ -13,7 +14,10 @@ class IngredientSearchFilter(SearchFilter):
 
 class RecipeFilter(filters.FilterSet):
     """Кастомный фильтр для рецептов."""
-    author = filters.CharFilter(lookup_expr='exact')
+    author = filters.CharFilter(
+        field_name='author',
+        method='get_filter_field'
+    )
     tags = filters.AllValuesMultipleFilter(field_name='tags__slug')
     is_favorited = filters.BooleanFilter(
         field_name='is_favorited',
@@ -43,4 +47,8 @@ class RecipeFilter(filters.FilterSet):
         if name == 'is_in_shopping_cart':
             return queryset.filter(
                 shoppingcart__user=self.request.user
+            )
+        if name == 'author' and value == 'me':
+            return queryset.filter(
+                author=self.request.user
             )
