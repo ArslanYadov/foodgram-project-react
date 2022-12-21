@@ -109,7 +109,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             })
 
         recipe_id_list = user.recipe_in_cart.values_list('recipe_id')
-        recipe_in_cart_list = IngredientAmountForRecipe.objects.filter(
+        ingredients_in_cart = IngredientAmountForRecipe.objects.filter(
             recipe__in=recipe_id_list
         ).values_list(
             'ingredient__name',
@@ -118,7 +118,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         )
 
         ingredients = {}
-        for (name, measurement_unit, amount) in recipe_in_cart_list:
+        for (name, measurement_unit, amount) in ingredients_in_cart:
             if name not in ingredients:
                 ingredients[name] = {
                     'name': name,
