@@ -1,4 +1,5 @@
 from api.filters import IngredientSearchFilter, RecipeFilter
+from api.paginations import CustomPagination
 from api.permissions import IsAuthorAdminModerOrReadOnly
 from api.serializers import (
     FavoriteSerializer,
@@ -38,6 +39,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     """Отображение рецептов."""
     queryset = Recipe.objects.all()
+    pagination_class = CustomPagination
     permission_classes = (IsAuthorAdminModerOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     #filterset_fields = ('author__username', 'tags__slug')
