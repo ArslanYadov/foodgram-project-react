@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 from recipes.validators import validate_color
 from users.models import User
@@ -78,7 +79,10 @@ class Recipe(models.Model):
         verbose_name='Список тегов'
     )
     cooking_time = models.PositiveIntegerField(
-        verbose_name='Время приготовления'
+        verbose_name='Время приготовления',
+        validators=[
+            MinValueValidator(1)
+        ]
     )
     pub_date = models.DateTimeField(
         auto_now_add=True,
@@ -109,7 +113,10 @@ class IngredientAmountForRecipe(models.Model):
         verbose_name='Ингредиент'
     )
     amount = models.PositiveSmallIntegerField(
-        verbose_name='Количество'
+        verbose_name='Количество',
+        validators=[
+            MinValueValidator(1)
+        ]
     )
 
     class Meta:
