@@ -118,9 +118,13 @@ class RecipeSerializer(serializers.ModelSerializer):
                 {'id': ingredient_id, 'amount': amount}
             )
 
+        text_in_list: list[str] = list(self.initial_data.get('text'))
+        text_in_list[0] = text_in_list[0].capitalize()
+        text: str = ''.join(text_in_list)
+
         attrs['ingredients'] = validated_ingrediets
         attrs['name'] = str(self.initial_data.get('name')).capitalize()
-        attrs['text'] = str(self.initial_data.get('text')).capitalize()
+        attrs['text'] = text
         return attrs
 
     def _set_amount_to_ingredient(self, recipe, ingredients):
