@@ -1,10 +1,10 @@
 [![Build Status](https://github.com/ArslanYadov/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)](https://github.com/ArslanYadov/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 # Foodgram
-
+Проект доступен по ссылке: [Foodgram](http://51.250.1.63/)
 ### Request
 ``` bash
-$ curl http://localhost:8000/api/recipes/
+$ curl http://51.250.1.63/api/recipes/
 ```
 ### Response
 ``` json
@@ -80,10 +80,11 @@ $ curl http://localhost:8000/api/recipes/
 ### Технологии
 * [Python 3.10.6](https://docs.python.org/3.10/)
 * [Django 4.1.4](https://docs.djangoproject.com/en/4.1/) + [REST](https://www.django-rest-framework.org/)
-## Запуск проекта на данный момент
+## Запуск в dev-режиме локально
 - Добавить в свой файл с переменными окружения `.env` значения переменных по примеру из файла `.env.template`
-- Для тестирования установить `DEBUG=True` и использовать _sqlite3_ ([!]на боевом сервере поставить `False` для подключения _postgresql_)
-- Воспользоваться командой `make setup` из файла **Makefile** для сбора и запуска проекта на локальном сервере
+- Для тестирования установить `DEBUG=True` и использовать _sqlite3_
+- В файле `infra/nginx.conf` удалить/закомментировать *server_name*
+- Воспользоваться командой `make setup` из файла **Makefile** для сбора контейнеров и запуска проекта на локальном сервере
 ``` bash
 $ make setup
 ```
