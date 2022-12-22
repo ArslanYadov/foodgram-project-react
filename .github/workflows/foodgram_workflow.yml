@@ -101,8 +101,8 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             sudo docker compose stop
-            sudo docker compose rm web
-            sudo docker compose rm frontend
+            sudo docker compose rm web -f
+            sudo docker compose rm frontend -f
             sudo docker rmi ${{ secrets.DOCKER_LOGIN }}/foodgram_backend:<none>
             sudo docker rmi ${{ secrets.DOCKER_LOGIN }}/foodgram_frontend:<none>
             sudo docker pull ${{ secrets.DOCKER_LOGIN }}/foodgram_backend:latest
