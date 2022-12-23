@@ -9,6 +9,7 @@ from recipes.models import (
     Tag
 )
 from rest_framework import serializers
+from users.serializers import UserDetailSerializer
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -44,6 +45,7 @@ class IngredientAmountForRecipeSerializer(serializers.ModelSerializer):
 class RecipesListSerializer(serializers.ModelSerializer):
     """Сериализатор рецептов для метода GET."""
     tags = TagSerializer(many=True)
+    author = UserDetailSerializer()
     ingredients = serializers.SerializerMethodField()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
@@ -52,7 +54,7 @@ class RecipesListSerializer(serializers.ModelSerializer):
         model = Recipe
         exclude = ('pub_date', )
         read_only_fields = (
-            'ingredients', 'is_favorited', 'is_in_shopping_cart'
+            'author', 'ingredients', 'is_favorited', 'is_in_shopping_cart'
         )
 
     def get_ingredients(self, obj):
