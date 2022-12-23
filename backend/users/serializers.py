@@ -31,7 +31,7 @@ class UserDetailSerializer(UserSerializer):
         # return user.follower.filter(author=obj).exists()
         return (
             user.follower.filter(author=obj).exists()
-            and user.is_authenticated
+            if user.is_authenticated else False
         )
 
 
