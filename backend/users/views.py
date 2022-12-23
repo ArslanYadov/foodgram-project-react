@@ -25,7 +25,7 @@ class FollowListViewSet(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        #return User.objects.filter(following__user=self.request.user)
+        # return User.objects.filter(following__user=self.request.user)
         return User.objects.filter(
             following__user=self.request.user
         ).annotate(recipes_count=Count('recipes'))
