@@ -72,7 +72,9 @@ class FollowSerializer(UserDetailSerializer):
     Валидация по повторной подписке на автора.
     """
     recipes = serializers.SerializerMethodField()
-    # recipes_count = serializers.IntegerField()
+    recipes_count = serializers.IntegerField(
+        source='recipes.count'
+    )
     # recipes_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -85,9 +87,9 @@ class FollowSerializer(UserDetailSerializer):
             'last_name',
             'is_subscribed',
             'recipes',
-            # 'recipes_count'
+            'recipes_count'
         )
-        read_only_fields = ('recipes', )  # 'recipes_count')
+        read_only_fields = ('recipes', 'recipes_count')
 
         validators = [
             serializers.UniqueTogetherValidator(
