@@ -72,7 +72,6 @@ class FollowSerializer(UserDetailSerializer):
     Валидация по повторной подписке на автора.
     """
     recipes = serializers.SerializerMethodField()
-    recipes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -102,9 +101,6 @@ class FollowSerializer(UserDetailSerializer):
         if recipes_limit:
             recipes = recipes[:int(recipes_limit)]
         return RecipeShortSerializer(recipes, many=True).data
-
-    def get_recipes_count(self, obj):
-        return obj.recipes.count()
 
 
 class RecipeShortSerializer(serializers.ModelSerializer):
