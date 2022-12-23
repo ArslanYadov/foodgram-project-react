@@ -1,5 +1,5 @@
 from api.paginations import CustomPagination
-from django.db import transaction
+# from django.db import transaction
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
@@ -39,10 +39,9 @@ class FollowCreateDestroyViewSet(
     Доступность: только авторизованные пользователи.
     """
     serializer_class = FollowSerializer
-    pagination_class = CustomPagination
     permission_classes = (permissions.IsAuthenticated,)
 
-    @transaction.atomic
+    # @transaction.atomic
     def post(self, request, *args, **kwargs):
         user_id = self.kwargs.get('user_id')
         if user_id == request.user.id:
@@ -65,7 +64,7 @@ class FollowCreateDestroyViewSet(
             status=status.HTTP_201_CREATED
         )
 
-    @transaction.atomic
+    # @transaction.atomic
     def delete(self, request, *args, **kwargs):
         user_id = self.kwargs.get('user_id')
         follow = Follow.objects.filter(
