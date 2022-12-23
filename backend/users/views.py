@@ -39,9 +39,10 @@ class FollowCreateDestroyViewSet(
     Доступность: только авторизованные пользователи.
     """
     serializer_class = FollowSerializer
+    pagination_class = CustomPagination
     permission_classes = (permissions.IsAuthenticated,)
 
-    #@transaction.atomic
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         user_id = self.kwargs.get('user_id')
         if user_id == request.user.id:
