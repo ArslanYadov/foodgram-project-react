@@ -1,5 +1,6 @@
 from api.paginations import CustomPagination
 from django.db import transaction
+from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
 from rest_framework import generics, permissions, response, status
@@ -24,7 +25,10 @@ class FollowListViewSet(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        return User.objects.filter(following__user=self.request.user)
+        #return User.objects.filter(following__user=self.request.user)
+        return User.objects.filter(
+            following__user=self.request.user
+        ).annotate(recipes_count=Count('recipes'))
 
 
 class FollowCreateDestroyViewSet(
