@@ -37,7 +37,7 @@ class RecipeFilter(filters.FilterSet):
         )
 
     def get_filter_field(self, queryset, name, value):
-        if not value and not self.request.user.is_authenticated:
+        if not value: # and not self.request.user.is_authenticated:
             return queryset
         if name == 'is_favorited':
             return queryset.filter(
