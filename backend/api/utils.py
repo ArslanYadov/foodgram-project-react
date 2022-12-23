@@ -1,5 +1,5 @@
 import base64
-from datetime import datetime
+from django.utils.timezone import datetime
 from django.core.files.base import ContentFile
 from rest_framework.serializers import ImageField
 
