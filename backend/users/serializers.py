@@ -72,6 +72,7 @@ class FollowSerializer(UserDetailSerializer):
     Валидация по повторной подписке на автора.
     """
     recipes = serializers.SerializerMethodField()
+    recipes_count = serializers.IntegerField()
 
     class Meta:
         model = User
