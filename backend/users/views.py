@@ -1,6 +1,6 @@
 from api.paginations import CustomPagination
-# from django.db import transaction
-from django.db.models import Count
+from django.db import transaction
+# from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
 from rest_framework import generics, permissions, response, status
@@ -27,7 +27,7 @@ class FollowListViewSet(generics.ListAPIView):
     def get_queryset(self):
         return User.objects.filter(
             following__user=self.request.user
-        ).annotate(recipes_count=Count('recipes'))
+        )  # .annotate(recipes_count=Count('recipes'))
 
 
 class FollowCreateDestroyViewSet(
@@ -41,7 +41,7 @@ class FollowCreateDestroyViewSet(
     serializer_class = FollowSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-    # @transaction.atomic
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         user_id = self.kwargs.get('user_id')
         if user_id == request.user.id:
@@ -64,7 +64,7 @@ class FollowCreateDestroyViewSet(
             status=status.HTTP_201_CREATED
         )
 
-    # @transaction.atomic
+    @transaction.atomic
     def delete(self, request, *args, **kwargs):
         user_id = self.kwargs.get('user_id')
         follow = Follow.objects.filter(
