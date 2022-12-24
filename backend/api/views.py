@@ -1,6 +1,6 @@
 from api.filters import IngredientSearchFilter, RecipeFilter
 from api.paginations import CustomPagination
-from api.permissions import IsAuthorAdminModerOrReadOnly
+from api.permissions import IsAuthorAdminOrReadOnly
 from api.serializers import (
     FavoriteSerializer,
     IngredientSerializer,
@@ -42,7 +42,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     """Отображение рецептов."""
     queryset = Recipe.objects.all()
     pagination_class = CustomPagination
-    permission_classes = (IsAuthorAdminModerOrReadOnly,)
+    permission_classes = (IsAuthorAdminOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
 
