@@ -23,14 +23,14 @@ def get_shopping_cart_footer() -> str:
 
 
 def validate_input_value(
-        value: int,
-        error_message: str,
-        limit_value: int = LIMIT_VALUE
-    ) -> str | int:
-        """
-        Валидация вводимого значения.
-        Вывод ошибки, в случае выхода за лимит.
-        """
-        if value < limit_value:
-            raise ValidationError(error_message)
-        return value
+    value: int,
+    error_message: str,
+    limit_value: int = LIMIT_VALUE
+) -> str | int:
+    """
+    Валидация вводимого значения.
+    Вывод ошибки, в случае выхода за лимит.
+    """
+    if value < limit_value:
+        raise ValidationError(error_message)
+    return value
