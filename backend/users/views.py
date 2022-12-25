@@ -12,7 +12,6 @@ class UserListViewSet(UserViewSet):
     """Вьюсет для отображения списка пользователей."""
     queryset = User.objects.all()
     serializer_class = UserDetailSerializer
-    permission_classes = (permissions.AllowAny,)
 
 
 class FollowListViewSet(generics.ListAPIView):
