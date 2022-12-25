@@ -1,9 +1,9 @@
+import re
 from django.contrib.auth.models import (
     AbstractUser, BaseUserManager
 )
 from django.db import models
-from django.core.validators import RegexValidator
-from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 
 class UserManager(BaseUserManager):
@@ -13,6 +13,12 @@ class UserManager(BaseUserManager):
         first_name, last_name,
         username, email, password, **extra_fields
     ):
+        match = re.search(r'^[\w.@+-]+\z', username)
+        if not match:
+            raise ValidationError(
+                'Имя пользователя может содержать только латинские буквы, '
+                'и символы [.@+-].'
+            )
         user = self.model(
             first_name=first_name,
             last_name=last_name,
@@ -50,16 +56,7 @@ class User(AbstractUser):
     username = models.CharField(
         max_length=150,
         unique=True,
-        verbose_name='Имя пользователя',
-        validators=[
-            RegexValidator(
-                regex=r'^[\w.@+-]+\z',
-                message=_(
-                    'Имя пользователя может содержать только латинские буквы, '
-                    'и символы [.@+-].'
-                )
-            )
-        ]
+        verbose_name='Имя пользователя'
     )
     first_name = models.CharField(
         max_length=150,
