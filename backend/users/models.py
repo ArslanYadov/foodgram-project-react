@@ -3,7 +3,6 @@ from django.contrib.auth.models import (
     AbstractUser, BaseUserManager
 )
 from django.db import models
-from django.core.exceptions import ValidationError
 
 
 class UserManager(BaseUserManager):
@@ -15,7 +14,7 @@ class UserManager(BaseUserManager):
     ):
         match = re.search(r'^[\w.@+-]+\z', username)
         if not match:
-            raise ValidationError(
+            raise ValueError(
                 'Имя пользователя может содержать только латинские буквы, '
                 'и символы [.@+-].'
             )
