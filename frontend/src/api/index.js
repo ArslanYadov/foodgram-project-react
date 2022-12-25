@@ -232,9 +232,8 @@ class Api {
   }
 
   getUser ({ id }) {
-    const token = localStorage.getItem('token')
     // попытка дать информацию о пользователе анону
-    const authorization = token ? { 'authorization': `Token ${token}` } : {}
+    // const token = localStorage.getItem('token')
     return fetch(
       `/api/users/${id}/`,
       {
@@ -242,7 +241,6 @@ class Api {
         headers: {
           ...this._headers,
           // authorization': `Token ${token}`
-          ...authorization
         }
       }
     ).then(this.checkResponse)
@@ -347,9 +345,8 @@ class Api {
 
 
   addToOrders ({ id }) {
-    const token = localStorage.getItem('token')
     // даем возможность анону добавить рецепт в список покупок
-    const authorization = token ? { 'authorization': `Token ${token}` } : {}
+    // const token = localStorage.getItem('token')
     return fetch(
       `/api/recipes/${id}/shopping_cart/`,
       {
@@ -357,16 +354,14 @@ class Api {
         headers: {
           ...this._headers,
           // 'authorization': `Token ${token}`
-          ...authorization
         }
       }
     ).then(this.checkResponse)
   }
 
   removeFromOrders ({ id }) {
-    const token = localStorage.getItem('token')
     // даем возможность анону удалить рецепт из списка покупок
-    const authorization = token ? { 'authorization': `Token ${token}` } : {}
+    // const token = localStorage.getItem('token')
     return fetch(
       `/api/recipes/${id}/shopping_cart/`,
       {
@@ -374,7 +369,6 @@ class Api {
         headers: {
           ...this._headers,
           // 'authorization': `Token ${token}`
-          ...authorization
         }
       }
     ).then(this.checkResponse)
@@ -395,9 +389,8 @@ class Api {
   }
 
   downloadFile () {
-    const token = localStorage.getItem('token')
-     // даем возможность анону скачать список покупок
-    const authorization = token ? { 'authorization': `Token ${token}` } : {}
+    // даем возможность анону скачать список покупок
+    // const token = localStorage.getItem('token')
     return fetch(
       `/api/recipes/download_shopping_cart/`,
       {
@@ -405,7 +398,6 @@ class Api {
         headers: {
           ...this._headers,
           // 'authorization': `Token ${token}`
-          ...authorization
         }
       }
     ).then(this.checkFileDownloadResponse)
