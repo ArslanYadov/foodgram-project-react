@@ -2,6 +2,8 @@ from django.contrib.auth.models import (
     AbstractUser, BaseUserManager
 )
 from django.db import models
+from django.core.validators import RegexValidator
+from django.utils.translation import gettext_lazy as _
 
 
 class UserManager(BaseUserManager):
@@ -48,7 +50,16 @@ class User(AbstractUser):
     username = models.CharField(
         max_length=150,
         unique=True,
-        verbose_name='Имя пользователя'
+        verbose_name='Имя пользователя',
+        validators=[
+            RegexValidator(
+                regex=r'^[\w.@+-]+\z',
+                message=_(
+                    'Имя пользователя может содержать только латинские буквы, '
+                    'и символы [.@+-].'
+                )
+            )
+        ]
     )
     first_name = models.CharField(
         max_length=150,
