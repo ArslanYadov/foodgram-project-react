@@ -232,15 +232,16 @@ class Api {
   }
 
   getUser ({ id }) {
-    // попытка дать информацию о пользователе анону
-    // const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
+    const authorization = token ? { 'authorization': `Token ${token}` } : {} // добавил
     return fetch(
       `/api/users/${id}/`,
       {
         method: 'GET',
         headers: {
           ...this._headers,
-          // authorization': `Token ${token}`
+          ...authorization // добавил
+          // 'authorization': `Token ${token}`
         }
       }
     ).then(this.checkResponse)
@@ -345,30 +346,28 @@ class Api {
 
 
   addToOrders ({ id }) {
-    // даем возможность анону добавить рецепт в список покупок
-    // const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     return fetch(
       `/api/recipes/${id}/shopping_cart/`,
       {
         method: 'POST',
         headers: {
           ...this._headers,
-          // 'authorization': `Token ${token}`
+          'authorization': `Token ${token}`
         }
       }
     ).then(this.checkResponse)
   }
 
   removeFromOrders ({ id }) {
-    // даем возможность анону удалить рецепт из списка покупок
-    // const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     return fetch(
       `/api/recipes/${id}/shopping_cart/`,
       {
         method: 'DELETE',
         headers: {
           ...this._headers,
-          // 'authorization': `Token ${token}`
+          'authorization': `Token ${token}`
         }
       }
     ).then(this.checkResponse)
@@ -389,15 +388,14 @@ class Api {
   }
 
   downloadFile () {
-    // даем возможность анону скачать список покупок
-    // const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     return fetch(
       `/api/recipes/download_shopping_cart/`,
       {
         method: 'GET',
         headers: {
           ...this._headers,
-          // 'authorization': `Token ${token}`
+          'authorization': `Token ${token}`
         }
       }
     ).then(this.checkFileDownloadResponse)
