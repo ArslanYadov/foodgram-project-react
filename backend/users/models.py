@@ -1,4 +1,3 @@
-import re
 from django.contrib.auth.models import (
     AbstractUser, BaseUserManager
 )
@@ -12,12 +11,6 @@ class UserManager(BaseUserManager):
         first_name, last_name,
         username, email, password, **extra_fields
     ):
-        match = re.search(r'^[\w.@+-]+\z', username)
-        if not match:
-            raise ValueError(
-                'Имя пользователя может содержать только латинские буквы, '
-                'и символы [.@+-].'
-            )
         user = self.model(
             first_name=first_name,
             last_name=last_name,
