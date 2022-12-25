@@ -1,7 +1,8 @@
 import base64
+from api.conf import LIMIT_VALUE
 from django.utils.timezone import datetime
 from django.core.files.base import ContentFile
-from rest_framework.serializers import ImageField
+from rest_framework.serializers import ImageField, ValidationError
 
 
 class Base64ImageField(ImageField):
@@ -19,3 +20,17 @@ def get_shopping_cart_footer() -> str:
     time_format_message: str = 'Список создан в %H:%M от %d/%m/%Y'
     separate: str = '-' * len(time_format_message)
     return separate + '\n' + datetime.now().strftime(time_format_message)
+
+
+def validate_input_value(
+        value: int,
+        error_message: str,
+        limit_value: int = LIMIT_VALUE
+    ) -> str | int:
+        """
+        Валидация вводимого значения.
+        Вывод ошибки, в случае выхода за лимит.
+        """
+        if value < limit_value:
+            raise ValidationError(error_message)
+        return value

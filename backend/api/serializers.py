@@ -1,5 +1,4 @@
-from api.conf import LIMIT_VALUE
-from api.utils import Base64ImageField
+from api.utils import Base64ImageField, validate_input_value
 from django.db import transaction
 from recipes.models import (
     Favorite,
@@ -115,13 +114,11 @@ class RecipeSerializer(serializers.ModelSerializer):
             unique_ingredients_id.append(ingredient_id)
 
             amount = ingredient.get('amount')
-            if amount < LIMIT_VALUE:
-                raise serializers.ValidationError({
-                    'Ингредиент': (
-                        'Количество ингредиента должно '
-                        'быть больше или равно {}.'.format(LIMIT_VALUE)
-                    )
-                })
+            amount = validate_input_value(
+                amount,
+                'Количество ингредиента должно '
+                'быть больше или равно %(limit_value)s.'
+            )
 
             validated_ingrediets.append(
                 {'id': ingredient_id, 'amount': amount}
@@ -131,8 +128,16 @@ class RecipeSerializer(serializers.ModelSerializer):
         text_in_list[0] = text_in_list[0].capitalize()
         text: str = ''.join(text_in_list)
 
+        cooking_time = self.initial_data.get('cooking_time')
+        cooking_time = validate_input_value(
+            cooking_time,
+            'Время приготовления должно быть '
+            'больше или равно %(limit_value)s.'
+        )
+
         attrs['ingredients'] = validated_ingrediets
         attrs['name'] = str(self.initial_data.get('name')).capitalize()
+        attrs['cooking_time'] = cooking_time
         attrs['text'] = text
         return attrs
 
