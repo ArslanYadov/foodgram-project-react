@@ -1,3 +1,4 @@
+from api.conf import LIMIT_VALUE
 from api.utils import Base64ImageField
 from django.db import transaction
 from recipes.models import (
@@ -100,20 +101,28 @@ class RecipeSerializer(serializers.ModelSerializer):
             ingredient_id = ingredient.get('id')
             if not Ingredient.objects.filter(id=ingredient_id).exists():
                 raise serializers.ValidationError({
-                    'ingredient_id': (
+                    'Ингредиент': (
                         'Не существующий ингредиент: {}'.format(ingredient_id)
                     )
                 })
 
             if ingredient_id in unique_ingredients_id:
                 raise serializers.ValidationError({
-                    'ingredient_id': (
+                    'Ингредиент': (
                         'Ингредиенты не должны повторяться.'
                     )
                 })
             unique_ingredients_id.append(ingredient_id)
 
             amount = ingredient.get('amount')
+            if amount < LIMIT_VALUE:
+                raise serializers.ValidationError({
+                    'Ингредиент': (
+                        'Количество ингредиента должно '
+                        'быть больше или равно {}.'.format(LIMIT_VALUE)
+                    )
+                })
+
             validated_ingrediets.append(
                 {'id': ingredient_id, 'amount': amount}
             )
