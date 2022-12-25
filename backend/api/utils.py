@@ -1,8 +1,10 @@
 import base64
 from api.conf import LIMIT_VALUE
 from django.utils.timezone import datetime
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
-from rest_framework.serializers import ImageField, ValidationError
+from django.utils.translation import gettext_lazy as _
+from rest_framework.serializers import ImageField
 
 
 class Base64ImageField(ImageField):
@@ -33,6 +35,7 @@ def validate_input_value(
     """
     if value < limit_value:
         raise ValidationError(
-            detail='{} {}.'.format(error_message, limit_value)
+            _('{} {}.'.format(error_message, limit_value)),
+            params={'value': value},
         )
     return value
