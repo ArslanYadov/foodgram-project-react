@@ -49,31 +49,19 @@ class User(AbstractUser):
         max_length=150,
         unique=True,
         verbose_name='Имя пользователя',
-        help_text=(
-            'Обязательное поле. Введите свой никнейм.'
-        )
     )
     first_name = models.CharField(
         max_length=150,
         verbose_name='Имя',
-        help_text=(
-            'Обязательное поле. Введите своё имя.'
-        )
     )
     last_name = models.CharField(
         max_length=150,
         verbose_name='Фамилия',
-        help_text=(
-            'Обязательное поле. Введите свою фамилию.'
-        )
     )
     email = models.EmailField(
         max_length=254,
         unique=True,
         verbose_name='Адрес электронной почты',
-        help_text=(
-            'Обязательное поле. Введите свой адрес электронной почты.'
-        )
     )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

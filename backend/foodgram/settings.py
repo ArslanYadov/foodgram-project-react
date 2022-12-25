@@ -136,7 +136,7 @@ DJOSER = {
         'current_user': 'users.serializers.UserDetailSerializer'
     },
     'PERMISSIONS': {
-        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
+        'user': ['api.permissions.IsAuthorAdminOrReadOnly'],
         'user_list': ['rest_framework.permissions.AllowAny'],
     },
     'HIDE_USERS': False,
