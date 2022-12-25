@@ -50,6 +50,9 @@ class UserRegistrationSerializer(UserCreateSerializer):
             'last_name',
             'password'
         )
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
         validators = [
             UniqueTogetherValidator(
@@ -59,11 +62,12 @@ class UserRegistrationSerializer(UserCreateSerializer):
         ]
 
     def validate_username(self, value):
-        match = re.search(r'^[\w.@+-]+\z', value.lower())
+        match = re.search(r'^[\w.@+-]+\z', value)
         if not match:
-            raise serializers.ValidationError({
-                'username': 'Имя пользователя не должно содержать кириллицу.'
-            })
+            raise serializers.ValidationError(
+                'Имя пользователя может содержать только латинские буквы, '
+                'и символы [.@+-].'
+            )
         if value.lower() in RESERVED_USERNAME_LIST:
             raise serializers.ValidationError(
                 'Данное имя зарезервированно!'
