@@ -117,7 +117,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             amount = validate_input_value(
                 amount,
                 'Количество ингредиента должно '
-                'быть больше или равно %(limit_value)s.'
+                'быть больше или равно'
             )
 
             validated_ingrediets.append(
@@ -128,16 +128,8 @@ class RecipeSerializer(serializers.ModelSerializer):
         text_in_list[0] = text_in_list[0].capitalize()
         text: str = ''.join(text_in_list)
 
-        cooking_time = self.initial_data.get('cooking_time')
-        cooking_time = validate_input_value(
-            cooking_time,
-            'Время приготовления должно быть '
-            'больше или равно %(limit_value)s.'
-        )
-
         attrs['ingredients'] = validated_ingrediets
         attrs['name'] = str(self.initial_data.get('name')).capitalize()
-        attrs['cooking_time'] = cooking_time
         attrs['text'] = text
         return attrs
 

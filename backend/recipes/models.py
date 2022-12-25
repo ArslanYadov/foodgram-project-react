@@ -1,5 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from recipes.validators import validate_color
 from users.models import User
 
@@ -83,7 +84,7 @@ class Recipe(models.Model):
         validators=[
             MinValueValidator(
                 1,
-                message=(
+                _(
                     'Время приготовления должно быть '
                     'больше или равно %(limit_value)s.'
                 )
@@ -123,7 +124,7 @@ class IngredientAmountForRecipe(models.Model):
         validators=[
             MinValueValidator(
                 1,
-                message=(
+                _(
                     'Количество ингредиента должно '
                     'быть больше или равно %(limit_value)s.'
                 )
