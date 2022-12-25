@@ -1,4 +1,3 @@
-import re
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from foodgram.settings import RESERVED_USERNAME_LIST
 from recipes.models import Recipe
