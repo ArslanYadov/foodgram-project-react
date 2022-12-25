@@ -32,5 +32,7 @@ def validate_input_value(
     Вывод ошибки, в случае выхода за лимит.
     """
     if value < limit_value:
-        raise ValidationError('{} {}.'.format(error_message, limit_value))
+        raise ValidationError(
+            detail='{} {}.'.format(error_message, limit_value)
+        )
     return value
