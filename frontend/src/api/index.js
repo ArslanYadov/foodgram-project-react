@@ -233,15 +233,13 @@ class Api {
 
   getUser ({ id }) {
     const token = localStorage.getItem('token')
-    const authorization = token ? { 'authorization': `Token ${token}` } : {} // добавил
     return fetch(
       `/api/users/${id}/`,
       {
         method: 'GET',
         headers: {
           ...this._headers,
-          ...authorization // добавил
-          // 'authorization': `Token ${token}`
+          'authorization': `Token ${token}`
         }
       }
     ).then(this.checkResponse)
