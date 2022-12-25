@@ -113,11 +113,13 @@ class RecipeSerializer(serializers.ModelSerializer):
                 })
             unique_ingredients_id.append(ingredient_id)
 
-            # amount = ingredient.get('amount')
             amount = validate_input_value(
                 int(ingredient.get('amount')),
-                'Количество ингредиента должно '
-                'быть больше или равно'
+                field_name='Ингредиент',
+                error_message=(
+                    'Количество ингредиента должно '
+                    'быть больше или равно'
+                )
             )
 
             validated_ingrediets.append(

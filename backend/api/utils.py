@@ -1,10 +1,10 @@
 import base64
 from api.conf import LIMIT_VALUE
 from django.utils.timezone import datetime
-from django.core.exceptions import ValidationError
+# from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
-from django.utils.translation import gettext_lazy as _
-from rest_framework.serializers import ImageField
+# from django.utils.translation import gettext_lazy as _
+from rest_framework.serializers import ImageField, ValidationError
 
 
 class Base64ImageField(ImageField):
@@ -26,6 +26,7 @@ def get_shopping_cart_footer() -> str:
 
 def validate_input_value(
     value: int,
+    field_name: str,
     error_message: str,
     limit_value: int = LIMIT_VALUE
 ) -> str | int:
@@ -34,8 +35,7 @@ def validate_input_value(
     Вывод ошибки, в случае выхода за лимит.
     """
     if value < limit_value:
-        raise ValidationError(
-            _('{} {}.'.format(error_message, limit_value)),
-            params={'value': value},
-        )
+        raise ValidationError({
+            field_name: '{} {}.'.format(error_message, limit_value)
+        })
     return value
