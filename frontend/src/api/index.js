@@ -233,13 +233,16 @@ class Api {
 
   getUser ({ id }) {
     const token = localStorage.getItem('token')
+    // попытка дать информацию о пользователе анону
+    const authorization = token ? { 'authorization': `Token ${token}` } : {}
     return fetch(
       `/api/users/${id}/`,
       {
         method: 'GET',
         headers: {
           ...this._headers,
-          'authorization': `Token ${token}`
+          // authorization': `Token ${token}`
+          ...authorization
         }
       }
     ).then(this.checkResponse)
@@ -345,13 +348,16 @@ class Api {
 
   addToOrders ({ id }) {
     const token = localStorage.getItem('token')
+    // даем возможность анону добавить рецепт в список покупок
+    const authorization = token ? { 'authorization': `Token ${token}` } : {}
     return fetch(
       `/api/recipes/${id}/shopping_cart/`,
       {
         method: 'POST',
         headers: {
           ...this._headers,
-          'authorization': `Token ${token}`
+          // 'authorization': `Token ${token}`
+          ...authorization
         }
       }
     ).then(this.checkResponse)
@@ -359,13 +365,16 @@ class Api {
 
   removeFromOrders ({ id }) {
     const token = localStorage.getItem('token')
+    // даем возможность анону удалить рецепт из списка покупок
+    const authorization = token ? { 'authorization': `Token ${token}` } : {}
     return fetch(
       `/api/recipes/${id}/shopping_cart/`,
       {
         method: 'DELETE',
         headers: {
           ...this._headers,
-          'authorization': `Token ${token}`
+          // 'authorization': `Token ${token}`
+          ...authorization
         }
       }
     ).then(this.checkResponse)
@@ -387,13 +396,16 @@ class Api {
 
   downloadFile () {
     const token = localStorage.getItem('token')
+     // даем возможность анону скачать список покупок
+    const authorization = token ? { 'authorization': `Token ${token}` } : {}
     return fetch(
       `/api/recipes/download_shopping_cart/`,
       {
         method: 'GET',
         headers: {
           ...this._headers,
-          'authorization': `Token ${token}`
+          // 'authorization': `Token ${token}`
+          ...authorization
         }
       }
     ).then(this.checkFileDownloadResponse)
