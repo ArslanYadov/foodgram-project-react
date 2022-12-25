@@ -1,3 +1,4 @@
+import re
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from foodgram.settings import RESERVED_USERNAME_LIST
 from recipes.models import Recipe
@@ -58,6 +59,11 @@ class UserRegistrationSerializer(UserCreateSerializer):
         ]
 
     def validate_username(self, value):
+        match = re.search(r'^[\w.@+-]+\z', value.lower())
+        if not match:
+            raise serializers.ValidationError({
+                'username': 'Имя пользователя не должно содержать кириллицу.'
+            })
         if value.lower() in RESERVED_USERNAME_LIST:
             raise serializers.ValidationError(
                 'Данное имя зарезервированно!'
