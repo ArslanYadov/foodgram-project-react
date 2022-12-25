@@ -1,9 +1,7 @@
 import base64
 from api.conf import LIMIT_VALUE
 from django.utils.timezone import datetime
-# from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
-# from django.utils.translation import gettext_lazy as _
 from rest_framework.serializers import ImageField, ValidationError
 
 
