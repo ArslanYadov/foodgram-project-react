@@ -64,9 +64,9 @@ class Api {
       {
         method: 'POST',
         headers: this._headers,
-        body: JSON.parse(JSON.stringify({
+        body: JSON.stringify({
           email, password, username, first_name, last_name
-        }))
+        })
       }
     ).then(this.checkResponse)
   }
