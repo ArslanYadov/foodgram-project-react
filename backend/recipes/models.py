@@ -1,5 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from recipes.validators import validate_color
 from users.models import User
 
@@ -81,7 +82,13 @@ class Recipe(models.Model):
     cooking_time = models.PositiveIntegerField(
         verbose_name='Время приготовления',
         validators=[
-            MinValueValidator(1)
+            MinValueValidator(
+                1,
+                _(
+                    'Время приготовления должно быть '
+                    'больше или равно %(limit_value)s.'
+                )
+            )
         ]
     )
     pub_date = models.DateTimeField(
@@ -115,7 +122,13 @@ class IngredientAmountForRecipe(models.Model):
     amount = models.PositiveSmallIntegerField(
         verbose_name='Количество',
         validators=[
-            MinValueValidator(1)
+            MinValueValidator(
+                1,
+                _(
+                    'Количество ингредиента должно '
+                    'быть больше или равно %(limit_value)s.'
+                )
+            )
         ]
     )
 
