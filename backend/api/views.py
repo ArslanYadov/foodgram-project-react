@@ -84,7 +84,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @action(
         methods=['POST'], detail=True,
-        permission_classes=[permissions.IsAuthenticated]
+        permission_classes=[permissions.AllowAny]
     )
     def shopping_cart(self, request, pk):
         return self._create_action(
@@ -99,7 +99,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @action(
         methods=['GET'], detail=False,
-        permission_classes=[permissions.IsAuthenticated]
+        permission_classes=[permissions.AllowAny]
     )
     def download_shopping_cart(self, request):
         user = self.request.user
