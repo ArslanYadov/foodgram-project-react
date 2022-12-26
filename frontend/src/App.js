@@ -186,6 +186,7 @@ function App() {
             exact
             path='/user/:id'
             component={User}
+            oggedIn={true} // добавил
             // loggedIn={loggedIn} убрал
             updateOrders={updateOrders}
           />
