@@ -118,6 +118,7 @@ const RecipeCreate = ({ onEdit }) => {
         />
         <CheckboxGroup
           label='Теги'
+          helperText='Необходимо установить хотя бы один тэг' 
           values={value}
           className={styles.checkboxGroup}
           labelClassName={styles.checkboxGroupLabel}
