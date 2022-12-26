@@ -150,7 +150,9 @@ function App() {
 
   useEffect(_ => {
     const token = localStorage.getItem('token')
-    if (token) {
+    const authorization = token ? { 'authorization': `Token ${token}` } : {} // добавил
+    // if (token) {
+    if (authorization) {  
       return api.getUserData()
         .then(res => {
           setUser(res)
@@ -162,8 +164,7 @@ function App() {
           history.push('/signin')
         })
     }
-    setLoggedIn(true)
-    // setLoggedIn(false)
+    setLoggedIn(false)
   }, [])
 
   if (loggedIn === null) {
