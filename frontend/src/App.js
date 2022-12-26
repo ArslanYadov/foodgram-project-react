@@ -186,8 +186,8 @@ function App() {
             exact
             path='/user/:id'
             component={User}
-            loggedIn={true} // добавил
-            // loggedIn={loggedIn} убрал
+            loggedIn={true}
+            // loggedIn={loggedIn}
             updateOrders={updateOrders}
           />
           <ProtectedRoute
