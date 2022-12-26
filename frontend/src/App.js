@@ -150,9 +150,7 @@ function App() {
 
   useEffect(_ => {
     const token = localStorage.getItem('token')
-    const authorization = token ? { 'authorization': `Token ${token}` } : {} // добавил
-    // if (token) {
-    if (authorization) {  
+    if (token) { 
       return api.getUserData()
         .then(res => {
           setUser(res)
@@ -188,7 +186,7 @@ function App() {
             exact
             path='/user/:id'
             component={User}
-            loggedIn={loggedIn}
+            // loggedIn={loggedIn} убрал
             updateOrders={updateOrders}
           />
           <ProtectedRoute
