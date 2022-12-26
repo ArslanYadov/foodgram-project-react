@@ -62,10 +62,6 @@ class UserRegistrationSerializer(UserCreateSerializer):
             raise serializers.ValidationError(
                 'Данное имя зарезервированно!'
             )
-        if len(value) == 1:
-            raise serializers.ValidationError(
-                'Слишком короткое имя!'
-            )
         return value
 
 
