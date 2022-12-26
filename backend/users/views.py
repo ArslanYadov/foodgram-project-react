@@ -1,4 +1,5 @@
 from api.paginations import CustomPagination
+from api.permissions import IsAuthorAdminOrReadOnly
 from django.db import transaction
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
@@ -12,7 +13,7 @@ class UserListViewSet(UserViewSet):
     """Вьюсет для отображения списка пользователей."""
     queryset = User.objects.all()
     serializer_class = UserDetailSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthorAdminOrReadOnly,)
 
 
 class FollowListViewSet(generics.ListAPIView):
