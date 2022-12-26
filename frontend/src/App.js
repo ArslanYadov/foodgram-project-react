@@ -157,13 +157,13 @@ function App() {
           setLoggedIn(true)
           getOrders()
         })
-        // добавил
-        // .catch(err => {
-        //   setLoggedIn(false)
-        //   history.push('/signin')
-        // })
+        .catch(err => {
+          setLoggedIn(false)
+          history.push('/signin')
+        })
     }
-    setLoggedIn(false)
+    setLoggedIn(true)
+    // setLoggedIn(false)
   }, [])
 
   if (loggedIn === null) {
