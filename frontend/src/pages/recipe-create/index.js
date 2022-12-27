@@ -100,7 +100,7 @@ const RecipeCreate = ({ onEdit }) => {
               })[0]}`)
             }
             if (cooking_time) {
-              return alert(`Время готовки: ${cooking_time[0]}`)
+              return alert(`Время приготовления: ${cooking_time[0]}`)
             }
             const errors = Object.values(err)
             if (errors) {

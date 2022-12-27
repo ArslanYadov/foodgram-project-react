@@ -182,11 +182,11 @@ function App() {
         </div>
         <Header orders={orders} loggedIn={loggedIn} onSignOut={onSignOut} />
         <Switch>
-          <Route
+          <ProtectedRoute
             exact
             path='/user/:id'
             component={User}
-            // loggedIn={true}
+            loggedIn={true}
             // loggedIn={loggedIn}
             updateOrders={updateOrders}
           />
