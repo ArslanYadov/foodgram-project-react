@@ -124,9 +124,7 @@ const RecipeCreate = ({ onEdit }) => {
           tagsClassName={styles.checkboxGroupTags}
           checkboxClassName={styles.checkboxGroupItem}
           handleChange={handleChange}
-          
         />
-        <FormHelperText>Выбери хотя бы один тэг</FormHelperText>
         <div className={styles.ingredients}>
           <div className={styles.ingredientsInputs}>
             <Input
