@@ -70,11 +70,10 @@ class RecipesListSerializer(serializers.ModelSerializer):
 
     def get_is_in_shopping_cart(self, obj):
         user = self.context.get('request').user
-        return user.recipe_in_cart.filter(recipe=obj).exists()
-        # return (
-        #     user.is_authenticated
-        #     and user.recipe_in_cart.filter(recipe=obj).exists()
-        # )
+        return (
+            (user.is_authenticated or user.is_anonymous)
+            and user.recipe_in_cart.filter(recipe=obj).exists()
+        )
 
 
 class RecipeSerializer(serializers.ModelSerializer):
