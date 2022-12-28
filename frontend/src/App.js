@@ -195,7 +195,8 @@ function App() {
             path='/cart'
             component={Cart}
             orders={orders}
-            loggedIn={loggedIn}
+            loggedIn={true}
+            // loggedIn={loggedIn}
             updateOrders={updateOrders}
           />
           <ProtectedRoute
