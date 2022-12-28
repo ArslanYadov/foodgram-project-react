@@ -91,7 +91,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
             </p>
           </div>
           <div className={styles['single-card__buttons']}>
-            {authContext && <Button
+            {(userContext || {}) && authContext && <Button
               className={styles['single-card__button']}
               modifier={is_in_shopping_cart ? 'style_light' : 'style_dark-blue'}
               clickHandler={_ => {
