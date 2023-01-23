@@ -3,7 +3,7 @@
 # Foodgram
 ### Request
 ``` bash
-$ curl http:localhost/api/recipes/
+$ curl http://localhost/api/recipes/
 ```
 ### Response
 ``` json
