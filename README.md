@@ -1,18 +1,9 @@
 [![Build Status](https://github.com/ArslanYadov/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)](https://github.com/ArslanYadov/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 # Foodgram
-Проект доступен по ссылке: [Foodgram](http://51.250.1.63/)
-
-```
-admin_data = {
-    "username": "admin",
-    "email": "fake@mail.com",
-    "password": "admin"
-}
-```
 ### Request
 ``` bash
-$ curl http://51.250.1.63/api/recipes/
+$ curl http:localhost/api/recipes/
 ```
 ### Response
 ``` json
