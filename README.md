@@ -86,6 +86,27 @@ $ curl http://localhost/api/recipes/
 ``` bash
 $ make setup
 ```
+### P.S.
+По умолчанию _nginx_ предоставляет возможность делать POST-запросы небольшого размера (1 Mb). Это поведение можно изменить. После запуска _nginx_ контейнера 
+необходимо отредактировать `nginx.conf`
+```bash
+$ sudo docker compose exec nginx nano /etc/nginx/nginx.conf
+```
+В открывшемся файле, после строчки `sendfile on;` добавить переменную `client_max_body_size` с желаемым значением, например 20 Mb:
+```
+http {
+    ...
+
+    sendfile    on;
+    client_max_body_size 20M;
+
+    ...
+}
+```
+После чего контейнер _nginx_ необходимо перезагрузить
+``` bash
+$ sudo docker container restart <CONTAINER_ID>
+```
 ## Автор бэкенда
 Арслан Ядов
 
