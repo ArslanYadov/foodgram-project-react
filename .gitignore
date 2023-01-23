@@ -133,3 +133,6 @@ dmypy.json
 
 # migrations
 backend/*/migrations/*_initial.py
+
+# main workflow
+.github/
