@@ -45,3 +45,19 @@ def make_description_capitalize(text: str) -> str:
     text_in_list[0] = text_in_list[0].capitalize()
     text: str = ''.join(text_in_list)
     return text
+
+
+def fill_shopping_cart(ingredients: dict) -> str:
+    """Составление списка покупок ингредиентами из рецептов."""
+    shopping_cart: list = ['Ваш список покупок:\n']
+    for ingredient in ingredients:
+        shopping_cart.append(
+            '\u00B7 {} ({}) \u2014 {}\n'.format(
+                ingredient['name'].capitalize(),
+                ingredient['measurement_unit'],
+                ingredient['amount']
+            )
+        )
+    shopping_cart.append(get_shopping_cart_footer())
+
+    return ''.join(shopping_cart)
