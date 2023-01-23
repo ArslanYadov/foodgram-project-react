@@ -37,3 +37,11 @@ def validate_input_value(
             field_name: '{} {}.'.format(error_message, limit_value)
         })
     return value
+
+
+def make_description_capitalize(text: str) -> str:
+    """Функция преобразовывает первую букву описания рецепта в заглавную."""
+    text_in_list: list[str] = list(text)
+    text_in_list[0] = text_in_list[0].capitalize()
+    text: str = ''.join(text_in_list)
+    return text

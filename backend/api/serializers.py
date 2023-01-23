@@ -1,4 +1,8 @@
-from api.utils import Base64ImageField, validate_input_value
+from api.utils import (
+    Base64ImageField,
+    make_description_capitalize,
+    validate_input_value
+)
 from django.db import transaction
 from recipes.models import (
     Favorite,
@@ -126,13 +130,11 @@ class RecipeSerializer(serializers.ModelSerializer):
                 {'id': ingredient_id, 'amount': amount}
             )
 
-        text_in_list: list[str] = list(self.initial_data.get('text'))
-        text_in_list[0] = text_in_list[0].capitalize()
-        text: str = ''.join(text_in_list)
-
         attrs['ingredients'] = validated_ingrediets
         attrs['name'] = str(self.initial_data.get('name')).capitalize()
-        attrs['text'] = text
+        attrs['text'] = make_description_capitalize(
+            self.initial_data.get('text')
+        )
 
         return attrs
 
