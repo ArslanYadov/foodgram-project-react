@@ -148,12 +148,3 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-
-RESERVED_USERNAME_LIST = (
-    'superuser',
-    'admin',
-    'administrator',
-    'moderator',
-    'moder',
-    'me',
-)

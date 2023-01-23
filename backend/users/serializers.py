@@ -1,5 +1,5 @@
+from api.conf import RESERVED_USERNAME_LIST
 from djoser.serializers import UserCreateSerializer, UserSerializer
-from foodgram.settings import RESERVED_USERNAME_LIST
 from recipes.models import Recipe
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
