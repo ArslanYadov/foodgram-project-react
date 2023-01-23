@@ -1,11 +1,11 @@
 [![Build Status](https://github.com/ArslanYadov/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)](https://github.com/ArslanYadov/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 # Foodgram
-### Request
+### Запрос
 ``` bash
 $ curl http://localhost/api/recipes/
 ```
-### Response
+### Ответ
 ``` json
 {
     "count": 1,
@@ -79,10 +79,9 @@ $ curl http://localhost/api/recipes/
 ### Технологии
 * [Python 3.10.6](https://docs.python.org/3.10/)
 * [Django 4.1.4](https://docs.djangoproject.com/en/4.1/) + [REST](https://www.django-rest-framework.org/)
-## Запуск в dev-режиме локально
+## Запуск проекта локально
 - Добавить в свой файл с переменными окружения `.env` значения переменных по примеру из файла `.env.template`
-- Для тестирования установить `DEBUG=True` и использовать _sqlite3_
-- В файле `infra/nginx.conf` удалить/закомментировать *server_name*
+- Если необходим вывод ошибок для тестирования и легковесная БД _sqlite3_ (по умолчанию используется _PostgreSQL_), то добавить `DEBUG=True`
 - Воспользоваться командой `make setup` из файла **Makefile** для сбора контейнеров и запуска проекта на локальном сервере
 ``` bash
 $ make setup
@@ -91,4 +90,4 @@ $ make setup
 Арслан Ядов
 
 E-mail:
-[Arslan Yadov](mailto:arslanyadov@yandex.ru?subject=foodgram%20diplom%20project)
+[Arslan Yadov](mailto:arsyy90@gmail.com?subject=foodgram%20diplom%20project)
